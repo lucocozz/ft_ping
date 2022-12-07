@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:58:25 by user42            #+#    #+#             */
-/*   Updated: 2022/12/06 20:14:51 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/07 18:00:53 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,13 @@ int	ft_strcmp(const char *s1, const char *s2)
 		i++;
 	}
 	return (0);
+}
+
+uint	ft_strlen(const char *str)
+{
+	uint	i = 0;
+
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }

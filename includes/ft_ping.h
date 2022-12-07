@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/07 01:36:46 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:07:58 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define EXIT_ERROR 2
 
 # define MSG_MISSING_DEST "usage error: Destination address required"
-# define MSG_INVALID_OPT "ping : invalid option -- "
+# define MSG_INVALID_OPT "ft_ping: invalid option -- "
 
 # define PING_HELP							\
 "Usage\n"									\
@@ -39,15 +39,25 @@
 "-h			print help and exit\n"			\
 "-v			verbose output\n"
 
-typedef struct s_option
+// typedef unsigned int	uint;
+
+
+typedef struct s_options
+{
+	char	*destination;
+	bool	verbose;
+}	t_options;
+
+typedef struct s_option_table
 {
 	char	flag;
-	bool	parameter;
-	void	(*handler)(char *);
-}	t_option;
+	bool	has_argument;
+	void	(*handler)(t_options *, char *);
+}	t_option_table;
 
-void	exit_ping(int status, char *msg);
-void	manage_options(int argc, char **argv);
-void	handle_flag_h(char *parameter);
+void		exit_ping(int status, char *msg);
+t_options	manage_options(int argc, char **argv);
+void		handle_flag_h(t_options *data, char *argument);
+void		handle_flag_v(t_options *data, char *argument);
 
 #endif
