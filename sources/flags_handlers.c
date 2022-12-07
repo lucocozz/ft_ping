@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flags_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2022/12/06 21:01:47 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/07 01:07:16 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 void	handle_flag_h(char *parameter)
 {
 	(void)parameter;
-	printf("Usage: ping: [-hv] destination\n");
+	printf(PING_HELP);
 	exit(EXIT_SUCCESS);
 }

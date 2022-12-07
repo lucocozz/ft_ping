@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_options.c                                   :+:      :+:    :+:   */
+/*   manage_options.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2022/12/06 21:55:41 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/07 01:36:49 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	__check_flag(char flag, char *parameter)
 		}
 	}
 	if (options[i].flag == 0) {
-		printf("ping : invalid option -- '%c'\n", flag);
+		printf("%s'%c'\n", MSG_INVALID_OPT, flag);
 		handle_flag_h(NULL);
 	}
 	
