@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/07 19:52:45 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/07 21:54:47 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@
 # include <stdbool.h>
 # include <netinet/ip.h>
 # include <netinet/ip_icmp.h>
+#include <linux/tcp.h>
 # include "libft.h"
+
+# define IMPLEMENT_PING
 
 # define EXIT_ERROR 2
 
@@ -54,7 +57,13 @@ typedef struct s_option_table
 	void	(*handler)(t_options *, char *);
 }	t_option_table;
 
-void		exit_ping(int status, char *msg);
+typedef struct s_icmp_header
+{
+
+}	t_icmp_header;
+
+void		fatal(short status, const char *msg);
+void		warn(const char *msg);
 t_options	manage_options(int argc, char **argv);
 void		verbose(bool is_active, const char *str);
 
