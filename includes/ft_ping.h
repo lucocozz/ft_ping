@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/07 21:54:47 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/09 18:08:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,15 @@
 
 typedef struct s_options
 {
-	char	*destination;
-	bool	verbose;
+	char		*destination;
+	float		interval;
+	bool		datetime;
+	bool		verbose;
+	long long	count;
+	bool		quiet;
+	int			size;
+	int			wait;
+	short		ttl;
 }	t_options;
 
 typedef struct s_option_table
@@ -69,5 +76,12 @@ void		verbose(bool is_active, const char *str);
 
 void		handle_flag_h(t_options *data, char *argument);
 void		handle_flag_v(t_options *data, char *argument);
+void		handle_flag_c(t_options *data, char *argument);
+void		handle_flag_i(t_options *data, char *argument);
+void		handle_flag_D(t_options *data, char *argument);
+void		handle_flag_q(t_options *data, char *argument);
+void		handle_flag_s(t_options *data, char *argument);
+void		handle_flag_t(t_options *data, char *argument);
+void		handle_flag_w(t_options *data, char *argument);
 
 #endif

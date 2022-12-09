@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:39:11 by user42            #+#    #+#             */
-/*   Updated: 2022/12/07 22:26:54 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/09 16:49:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ void	warn(const char *msg)
 
 int	main(int argc, char **argv)
 {
-	t_options	options;
-	int			icmp_socket;
+	t_options		options;
+	int				raw_socket;
 	struct icmphdr	icmp_header;
 
 	if (argc == 1)
 		fatal(EXIT_ERROR, MSG_MISSING_DEST);
 	options = manage_options(argc, argv);
-	icmp_socket = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
+	raw_socket = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
 	icmp_header.type = ICMP_ECHO;
 	return (EXIT_SUCCESS);
 }

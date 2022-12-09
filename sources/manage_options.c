@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2022/12/07 20:48:12 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/09 18:11:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 	static const t_option_table	options[] = {
 		{.flag = 'h', .handler = &handle_flag_h, .has_argument = false},
 		{.flag = 'v', .handler = &handle_flag_v, .has_argument = false},
+		{.flag = 'D', .handler = &handle_flag_D, .has_argument = false},
+		{.flag = 'q', .handler = &handle_flag_q, .has_argument = false},
+		{.flag = 'c', .handler = &handle_flag_c, .has_argument = true},
+		{.flag = 'i', .handler = &handle_flag_i, .has_argument = true},
+		{.flag = 's', .handler = &handle_flag_s, .has_argument = true},
+		{.flag = 't', .handler = &handle_flag_t, .has_argument = true},
+		{.flag = 'w', .handler = &handle_flag_t, .has_argument = true},
 		{0}
 	};
 	
@@ -38,8 +45,15 @@ static t_options	__init_options(void)
 {
 	t_options	options;
 
+	options.count = -1;
 	options.verbose = false;
 	options.destination = NULL;
+	options.interval = 1000;
+	options.datetime = false;
+	options.quiet = false;
+	options.size = 56;
+	options.ttl = 116;
+	options.wait = -1;
 	return (options);
 }
 
@@ -62,7 +76,7 @@ t_options	manage_options(int argc, char **argv)
 					argument = argv[i];
 				else
 					argument = NULL;
-				i += __check_flag(&options, *flag, argument);
+				i += __check_flag(&options, *flag, argument); //! risque de skip une option si ligne 74 est executer
 				++flag;
 			}
 		}
