@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2022/12/09 18:09:21 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/11 20:18:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,40 @@ void	handle_flag_v(t_options *data, char *argument)
 
 void	handle_flag_c(t_options *data, char *argument)
 {
-	//TODO: implement c flag
-	data->count;
+	long	value;
+	char	msg[256] = {0};
+
+	if (ft_is_integer(argument) == false) {
+		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
+		fatal(EXIT_FAILURE, msg);
+	}
+	value = ft_atol(argument);
+	if (!(value >= 1 && value <= __LONG_MAX__)) {
+		sprintf(msg, "%s '%s': out of range: %d <= value <= %ld", MSG_INVALID_ARG, argument, 1, __LONG_MAX__);
+		fatal(EXIT_FAILURE, msg);
+	}
+	data->count = value;
 }
 
 void	handle_flag_i(t_options *data, char *argument)
 {
-	//TODO: implement i flag
-	data->interval;
+	float	value;
+	char	msg[256] = {0};
+
+	if (ft_is_float(argument) == false) {
+		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
+		fatal(EXIT_FAILURE, msg);
+	}
+	value = ft_atof(argument);
+	if (value < MIN_INTERVAL)
+		fatal(EXIT_FAILURE, MSG_FLOOD);
+	data->interval = value * 1000;
 }
 
 void	handle_flag_D(t_options *data, char *argument)
 {
 	(void)argument;
-	data->datetime = true;
+	data->timestamps = true;
 }
 
 void	handle_flag_q(t_options *data, char *argument)
@@ -51,18 +71,51 @@ void	handle_flag_q(t_options *data, char *argument)
 
 void	handle_flag_s(t_options *data, char *argument)
 {
-	//TODO: implement s flag
-	data->size;
+	int		value;
+	char	msg[256] = {0};
+
+	if (ft_is_integer(argument) == false) {
+		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
+		fatal(EXIT_FAILURE, msg);
+	}
+	value = ft_atoi(argument);
+	if (!(value >= 0 && value <= __INT32_MAX__)) {
+		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __INT32_MAX__);
+		fatal(EXIT_FAILURE, msg);
+	}
+	data->size = value;
 }
 
 void	handle_flag_t(t_options *data, char *argument)
 {
-	//TODO: implement t flag
-	data->ttl;
+	int		value;
+	char	msg[256] = {0};
+
+	if (ft_is_integer(argument) == false) {
+		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
+		fatal(EXIT_FAILURE, msg);
+	}
+	value = ft_atoi(argument);
+	if (!(value >= 0 && value <= __UINT8_MAX__)) {
+		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __UINT8_MAX__);
+		fatal(EXIT_FAILURE, msg);
+	}
+	data->ttl = value;
 }
 
 void	handle_flag_w(t_options *data, char *argument)
 {
-	//TODO: implement w flag
-	data->wait;
+	int		value;
+	char	msg[256] = {0};
+
+	if (ft_is_integer(argument) == false) {
+		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
+		fatal(EXIT_FAILURE, msg);
+	}
+	value = ft_atoi(argument);
+	if (!(value >= 0 && value <= __INT32_MAX__)) {
+		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __INT32_MAX__);
+		fatal(EXIT_FAILURE, msg);
+	}
+	data->wait = value;
 }

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/09 18:08:57 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/11 20:20:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,45 @@
 # define IMPLEMENT_PING
 
 # define EXIT_ERROR 2
+# define MIN_INTERVAL 0.002
 
 # define MSG_MISSING_DEST "usage error: Destination address required"
 # define MSG_INVALID_OPT "ft_ping: invalid option -- "
+# define MSG_REQUIRED_ARG "ft_ping: option requires an argument -- "
+# define MSG_INVALID_ARG "invalid argument:"
+# define MSG_FLOOD "cannot flood; minimal interval allowed for user is 2ms"
+# define MSG_USAGE_ERR "usage error: Destination address required"
 
-# define PING_HELP							\
-"Usage\n"									\
-"  ft_ping [option] <destination>\n\n"		\
-"Options:\n"								\
-"<destionation>		dns or ip address\n"	\
-"-h			print help and exit\n"			\
-"-v			verbose output\n"
+# define DFT_COUNT -1
+# define DFT_VERBOSE false
+# define DFT_DESTINATION NULL
+# define DFT_INTERVAL 1000
+# define DFT_TIMESTAMPS false
+# define DFT_QUIET false
+# define DFT_SIZE 56
+# define DFT_TTL 255
+# define DFT_WAIT -1
+
+# define PING_HELP												\
+"Usage\n"														\
+"  ft_ping [option] <destination>\n\n"							\
+"Options:\n"													\
+"<destionation>	dns or ip address\n"							\
+"-h		print help and exit\n"									\
+"-v		verbose output\n"										\
+"-D		print timestamps\n"										\
+"-q		quiet output\n"											\
+"-c <count>	stop after <count> replies\n"						\
+"-i <interval>	seconds between sending each packet\n"			\
+"-s <size>	use <size> as number of data bytes to be sent\n"	\
+"-t <ttl>	define time to live\n"								\
+"-w <deadline>	reply wait <deadline> in seconds\n"
 
 typedef struct s_options
 {
 	char		*destination;
-	float		interval;
-	bool		datetime;
+	int			interval;
+	bool		timestamps;
 	bool		verbose;
 	long long	count;
 	bool		quiet;

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:39:11 by user42            #+#    #+#             */
-/*   Updated: 2022/12/09 16:49:31 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/11 20:12:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		fatal(EXIT_ERROR, MSG_MISSING_DEST);
 	options = manage_options(argc, argv);
+	if (options.destination == NULL)
+		fatal(EXIT_FAILURE, MSG_USAGE_ERR);
 	raw_socket = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
 	icmp_header.type = ICMP_ECHO;
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2022/12/09 18:11:48 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/11 20:16:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,16 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 		{.flag = 'i', .handler = &handle_flag_i, .has_argument = true},
 		{.flag = 's', .handler = &handle_flag_s, .has_argument = true},
 		{.flag = 't', .handler = &handle_flag_t, .has_argument = true},
-		{.flag = 'w', .handler = &handle_flag_t, .has_argument = true},
+		{.flag = 'w', .handler = &handle_flag_w, .has_argument = true},
 		{0}
 	};
 	
 	for (i = 0; options[i].flag != 0; ++i) {
 		if (flag == options[i].flag) {
+			if (options[i].has_argument == true && argument == NULL) {
+				printf("%s'%c'\n\n", MSG_REQUIRED_ARG, flag);
+				handle_flag_h(NULL, NULL);
+			}
 			options[i].handler(data, options[i].has_argument == true ? argument : NULL);
 			break ;
 		}
@@ -45,22 +49,21 @@ static t_options	__init_options(void)
 {
 	t_options	options;
 
-	options.count = -1;
-	options.verbose = false;
-	options.destination = NULL;
-	options.interval = 1000;
-	options.datetime = false;
-	options.quiet = false;
-	options.size = 56;
-	options.ttl = 116;
-	options.wait = -1;
+	options.count = DFT_COUNT;
+	options.verbose = DFT_VERBOSE;
+	options.destination = DFT_DESTINATION;
+	options.interval = DFT_INTERVAL;
+	options.timestamps = DFT_TIMESTAMPS;
+	options.quiet = DFT_QUIET;
+	options.size = DFT_SIZE;
+	options.ttl = DFT_TTL;
+	options.wait = DFT_WAIT;
 	return (options);
 }
 
 t_options	manage_options(int argc, char **argv)
 {
 	char		*flag;
-	char		*argument;
 	t_options	options = __init_options();
 
 	for (int i = 1; i < argc; ++i)
@@ -71,12 +74,11 @@ t_options	manage_options(int argc, char **argv)
 			while (*flag != '\0')
 			{
 				if (*(flag + 1) != '\0')
-					argument = (flag + 1);
-				else if (i < argc)
-					argument = argv[i];
+					__check_flag(&options, *flag, (flag + 1));
+				else if (i < argc - 1)
+					i += __check_flag(&options, *flag, argv[i + 1]);
 				else
-					argument = NULL;
-				i += __check_flag(&options, *flag, argument); //! risque de skip une option si ligne 74 est executer
+					__check_flag(&options, *flag, NULL);
 				++flag;
 			}
 		}
