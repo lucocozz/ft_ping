@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/11 20:20:20 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/12 20:12:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 # include <stdbool.h>
 # include <netinet/ip.h>
 # include <netinet/ip_icmp.h>
-#include <linux/tcp.h>
+# include <linux/tcp.h>
+# include <string.h>
+# include <errno.h>
 # include "libft.h"
 
 # define IMPLEMENT_PING
@@ -34,6 +36,7 @@
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002
 
+# define MSG_NAME "ft_ping: "
 # define MSG_MISSING_DEST "usage error: Destination address required"
 # define MSG_INVALID_OPT "ft_ping: invalid option -- "
 # define MSG_REQUIRED_ARG "ft_ping: option requires an argument -- "
@@ -86,24 +89,29 @@ typedef struct s_option_table
 	void	(*handler)(t_options *, char *);
 }	t_option_table;
 
-typedef struct s_icmp_header
+typedef struct s_icmp_datagram
 {
+	struct icmphdr	*header;
+	void			*raw;
+	char			*data;
+} t_icmp_datagram;
 
-}	t_icmp_header;
 
-void		fatal(short status, const char *msg);
-void		warn(const char *msg);
-t_options	manage_options(int argc, char **argv);
-void		verbose(bool is_active, const char *str);
+void			warn(const char *msg);
+void			fatal(short status, const char *msg);
+void			verbose(bool is_active, const char *str);
+t_options		manage_options(int argc, char **argv);
+t_icmp_datagram	create_icmp_datagram(size_t data_size);
+void			delete_icmp_datagram(t_icmp_datagram *datagram);
 
-void		handle_flag_h(t_options *data, char *argument);
-void		handle_flag_v(t_options *data, char *argument);
-void		handle_flag_c(t_options *data, char *argument);
-void		handle_flag_i(t_options *data, char *argument);
-void		handle_flag_D(t_options *data, char *argument);
-void		handle_flag_q(t_options *data, char *argument);
-void		handle_flag_s(t_options *data, char *argument);
-void		handle_flag_t(t_options *data, char *argument);
-void		handle_flag_w(t_options *data, char *argument);
+void	handle_flag_h(t_options *data, char *argument);
+void	handle_flag_v(t_options *data, char *argument);
+void	handle_flag_c(t_options *data, char *argument);
+void	handle_flag_i(t_options *data, char *argument);
+void	handle_flag_D(t_options *data, char *argument);
+void	handle_flag_q(t_options *data, char *argument);
+void	handle_flag_s(t_options *data, char *argument);
+void	handle_flag_t(t_options *data, char *argument);
+void	handle_flag_w(t_options *data, char *argument);
 
 #endif

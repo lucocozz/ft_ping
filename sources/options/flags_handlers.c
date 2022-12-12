@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2022/12/11 20:18:56 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/12 19:50:48 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_flag_h(t_options *data, char *argument)
 {
 	(void)(data && argument);
-	printf(PING_HELP);
+	printf("%s", PING_HELP);
 	exit(EXIT_SUCCESS);
 }
 

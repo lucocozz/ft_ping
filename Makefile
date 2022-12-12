@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/12/09 16:59:56 by user42           ###   ########.fr        #
+#    Updated: 2022/12/12 20:12:50 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME = ft_ping
 SRCS =	main.c				\
 		libft.c				\
 		flags_handlers.c	\
-		manage_options.c
+		manage_options.c	\
+		icmp_datagram.c		\
+		logs.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 DEPENDENCIES = $(OBJS:%.o=%.d)
@@ -39,7 +41,7 @@ ifeq ($(DEBUG), on)
 endif
 LDFLAGS = $(LIBS:%=-L lib%) $(LIBS:%=-l%)
 
-vpath %.c	$(addprefix $(SRCS_DIR), /.)
+vpath %.c	$(addprefix $(SRCS_DIR), /. /libs /icmp /options)
 
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)

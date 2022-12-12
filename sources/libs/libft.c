@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:58:25 by user42            #+#    #+#             */
-/*   Updated: 2022/12/11 20:18:17 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/12 18:38:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,12 @@ bool	ft_is_float(const char *str)
 		if (str[i] != '-' && !(str[i] >= '0' && str[i] <= '9') && str[i] != '.')
 			return (false);
 	return (true);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*ptr = s;
+
+	for (uint i = 0; i < n; ++i)
+		ptr[i] = 0;
 }

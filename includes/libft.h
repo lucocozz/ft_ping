@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:59:06 by user42            #+#    #+#             */
-/*   Updated: 2022/12/11 19:09:07 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/12 18:38:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ long	ft_atol(const char *str);
 float	ft_atof(const char *str);
 bool	ft_is_integer(const char *str);
 bool	ft_is_float(const char *str);
+void	ft_bzero(void *s, size_t n);
 
 #endif
