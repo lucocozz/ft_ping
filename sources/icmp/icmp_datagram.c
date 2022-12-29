@@ -12,7 +12,7 @@
 
 #include "ft_ping.h"
 
-t_icmp_datagram	create_icmp_datagram(size_t data_size)
+t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t code)
 {
 	t_icmp_datagram	datagram;
 
@@ -22,6 +22,10 @@ t_icmp_datagram	create_icmp_datagram(size_t data_size)
 	ft_bzero(datagram.raw, sizeof(struct icmphdr) + data_size);
 	datagram.header = datagram.raw;
 	datagram.data = datagram.raw + sizeof(struct icmphdr);
+	datagram.header->type = type;
+	datagram.header->code = code;
+	datagram.size = data_size;
+	datagram.total = data_size + sizeof(struct icmphdr);
 	return (datagram);
 }
 

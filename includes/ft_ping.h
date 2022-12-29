@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/13 15:32:38 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/29 16:47:59 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,25 @@
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002
 
+# define DFT_COUNT -1
+# define DFT_VERBOSE false
+# define DFT_DESTINATION NULL
+# define DFT_INTERVAL 1000000
+# define DFT_TIMESTAMPS false
+# define DFT_QUIET false
+# define DFT_SIZE 56
+# define DFT_TTL 64
+# define DFT_WAIT 0
+# define DFT_FAMILY PF_INET
+
 # define MSG_NAME "ft_ping: "
+# define MSG_FATAL "Fatal error"
 # define MSG_MISSING_DEST "usage error: Destination address required"
 # define MSG_INVALID_OPT "ft_ping: invalid option -- "
 # define MSG_REQUIRED_ARG "ft_ping: option requires an argument -- "
 # define MSG_INVALID_ARG "invalid argument:"
 # define MSG_FLOOD "cannot flood; minimal interval allowed for user is 2ms"
 # define MSG_USAGE_ERR "usage error: Destination address required"
-
-# define DFT_COUNT -1
-# define DFT_VERBOSE false
-# define DFT_DESTINATION NULL
-# define DFT_INTERVAL 1000
-# define DFT_TIMESTAMPS false
-# define DFT_QUIET false
-# define DFT_SIZE 56
-# define DFT_TTL 255
-# define DFT_WAIT -1
 
 # define PING_HELP												\
 "Usage\n"														\
@@ -75,6 +77,7 @@ typedef struct s_options
 	int			interval;
 	bool		timestamps;
 	bool		verbose;
+	int			family;
 	long long	count;
 	bool		quiet;
 	int			size;
@@ -94,15 +97,49 @@ typedef struct s_icmp_datagram
 	struct icmphdr	*header;
 	void			*raw;
 	char			*data;
+	size_t			size;
+	size_t			total;
 } t_icmp_datagram;
 
+extern bool g_running;
 
-void			warn(const char *msg);
-void			fatal(short status, const char *msg);
-void			verbose(bool is_active, const char *str);
-t_options		manage_options(int argc, char **argv);
-t_icmp_datagram	create_icmp_datagram(size_t data_size);
+/* system */
+void	warn(const char *msg);
+void	fatal(short status, const char *msg);
+void	verbose(bool is_active, const char *str);
+void	set_signals_handlers(void);
+void	handle_signals(int signum);
+void	set_signals_handlers(void);
+void	set_alarm(t_options options);
+void	cleanup(int socket, struct addrinfo *address);
+
+/* icmp */
+int				create_icmp_socket(t_options options, struct addrinfo *address);
+t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t code);
 void			delete_icmp_datagram(t_icmp_datagram *datagram);
+int				send_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
+int				recv_datagram(int socket, struct addrinfo *address);
+
+/* ip */
+char			*get_ip_address(struct addrinfo *address);
+struct addrinfo	*resolve_service(const char *service, int family);
+uint16_t		checksum(uint16_t *addr, size_t len);
+
+/* utils */
+float	get_elapsed_time(struct timeval start, struct timeval end);
+
+/* ping */
+int	ping(t_options options, struct addrinfo *address, int socket);
+int	send_and_recv_datagram(int socket, t_icmp_datagram datagram,
+		struct addrinfo *address, char *ip, int seq);
+
+/* display */
+void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);
+void	print_ping_result(int bytes, char *ip, int seq, float diff);
+
+/* options */
+t_options	get_options(int argc, char **argv);
+t_options	parse_options(int argc, char **argv);
 
 void	handle_flag_h(t_options *data, char *argument);
 void	handle_flag_v(t_options *data, char *argument);

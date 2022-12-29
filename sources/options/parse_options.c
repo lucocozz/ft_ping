@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manage_options.c                                   :+:      :+:    :+:   */
+/*   parse_options.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2022/12/11 20:16:23 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/29 15:50:53 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ static t_options	__init_options(void)
 	options.size = DFT_SIZE;
 	options.ttl = DFT_TTL;
 	options.wait = DFT_WAIT;
+	options.family = DFT_FAMILY;
 	return (options);
 }
 
-t_options	manage_options(int argc, char **argv)
+t_options	parse_options(int argc, char **argv)
 {
 	char		*flag;
 	t_options	options = __init_options();

@@ -3,21 +3,36 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
+#    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/12/13 15:26:07 by user42           ###   ########.fr        #
+#    Updated: 2022/12/29 16:47:27 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
 
-SRCS =	main.c				\
-		libft.c				\
-		flags_handlers.c	\
-		manage_options.c	\
-		icmp_datagram.c		\
-		logs.c
+SRCS =	main.c						\
+		libft.c						\
+		flags_handlers.c			\
+		parse_options.c				\
+		icmp_datagram.c				\
+		logs.c						\
+		resolve_service.c			\
+		get_ip_address.c			\
+		create_icmp_socket.c		\
+		signals.c					\
+		checksum.c					\
+		send_datagram.c				\
+		recv_datagram.c				\
+		alarm.c						\
+		get_options.c				\
+		cleanup.c					\
+		get_elapsed_time.c			\
+		ping.c						\
+		send_and_recv_datagram.c	\
+		print_ping_header.c			\
+		print_ping_result.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 DEPENDENCIES = $(OBJS:%.o=%.d)
@@ -41,14 +56,14 @@ ifeq ($(DEBUG), on)
 endif
 LDFLAGS = $(LIBS:%=-L lib%) $(LIBS:%=-l%)
 
-vpath %.c	$(addprefix $(SRCS_DIR), /. /libs /icmp /options)
+vpath %.c	$(addprefix $(SRCS_DIR), /. /libs /icmp /options /ip /system /utils /ping /display)
 
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)
 	$(MAKE) $(NAME)
 
 scan:
-	scan-build-12 $(MAKE)
+	scan-build $(MAKE)
 
 $(NAME): $(OBJS) | $(LIBS:%=lib%.a)
 	$(CC) $(CXXFLAGS) $^ -o $(NAME) $(LDFLAGS)

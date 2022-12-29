@@ -146,7 +146,7 @@ Il est important de noter que l'utilisation de sockets bruts nécessite souvent 
 
 Voici quelques options propres au protocole ICMP que vous pouvez utiliser avec la fonction `setsockopt()` pour configurer une socket ICMP en C :
 
-- `IP_HDRINCL` : cette option permet de spécifier si l'en-tête IP doit être inclus dans les données envoyées à travers la socket. Si cette option est activée, vous devez inclure l'en-tête IP dans les données envoyées à travers la socket vous-même, sinon il sera ajouté automatiquement par le système d'exploitation.
+- `IP_HDRINCL` : cette option permet de spécifier si l'en-tête IP (`iphdr`) doit être inclus dans les données envoyées à travers la socket. Si cette option est activée, vous devez inclure l'en-tête IP dans les données envoyées à travers la socket vous-même, sinon il sera ajouté automatiquement par le système d'exploitation.
 - `IP_TTL` : cette option permet de définir le Time-To-Live (TTL) de l'en-tête IP des paquets envoyés à travers la socket. Le TTL est un entier qui indique combien de sauts de routeur un paquet peut effectuer avant d'être abandonné.
 - `IP_TOS` : cette option permet de définir le Type Of Service (TOS) de l'en-tête IP des paquets envoyés à travers la socket. Le TOS est un entier qui indique la priorité du paquet et peut être utilisé pour déterminer comment le traiter par le routeur.
 
@@ -221,6 +221,21 @@ La structure `icmphdr` définit l'en-tête d'un message ICMP. Elle est définie 
 2. `code` : un entier qui indique le code de message ICMP associé au type de message (par exemple, `ICMP_ECHOREPLY` pour une réponse à un ping).
 3. `checksum` : un entier qui contient le checksum du message ICMP (un nombre de contrôle utilisé pour vérifier l'intégrité du message).
 4. `un` : une union qui contient des champs spécifiques en fonction du type de message. Pour les messages de type `ICMP_ECHO` (utilisés pour les pings), cette union contient les champs `id` et `sequence` qui permettent d'identifier la requête et la réponse associées.
+
+### **IP header**
+La structure `iphdr` définit l'en-tête d'un paquet IP (Internet Protocol). Elle est définie dans le fichier d'en-tête `<netinet/ip.h>` et a les champs suivants :
+
+- `ip_hl` : la longueur de l'en-tête IP en mots de 32 bits (4 octets).
+- `ip_v` : le numéro de version de l'IP. Pour l'IP version 4, il vaut 4.
+- `ip_tos` : le type de service du paquet IP. Il peut être utilisé pour indiquer la priorité du paquet et d'autres informations de service.
+- `ip_len` : la longueur totale du paquet IP en octets.
+- `ip_id` : un identifiant unique pour le paquet IP. Il est utilisé pour identifier les paquets fragmentés et les regrouper à la réception.
+- `ip_off` : un entier qui contient des indicateurs de fragment et l'offset des données dans le paquet IP fragmenté.
+- `ip_ttl` : le nombre de sauts de route maximal autorisé pour le paquet IP. Il est décrémenté à chaque saut de route et si il atteint 0, le paquet est abandonné.
+- `ip_p` : le numéro de protocole du paquet IP. Il indique le protocole utilisé pour le paquet IP suivant, comme TCP, UDP ou ICMP.
+- `ip_sum` : la somme de contrôle de l'en-tête IP. Elle est utilisée pour détecter les erreurs de transmission.
+- `ip_src` : l'adresse IP de l'expéditeur du paquet IP.
+- `ip_dst` : l'adresse IP du destinataire du paquet IP.
 
 <br/>
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flags_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2022/12/12 19:50:48 by user42           ###   ########.fr       */
+/*   Updated: 2022/12/24 19:30:02 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	handle_flag_i(t_options *data, char *argument)
 	value = ft_atof(argument);
 	if (value < MIN_INTERVAL)
 		fatal(EXIT_FAILURE, MSG_FLOOD);
-	data->interval = value * 1000;
+	data->interval = value * 1000000;
 }
 
 void	handle_flag_D(t_options *data, char *argument)
