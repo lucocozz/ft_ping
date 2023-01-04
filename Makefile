@@ -3,35 +3,35 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
+#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2022/12/29 16:47:27 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/01/04 16:25:00 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
 
-SRCS =	main.c						\
-		libft.c						\
-		flags_handlers.c			\
-		parse_options.c				\
-		icmp_datagram.c				\
-		logs.c						\
-		resolve_service.c			\
-		get_ip_address.c			\
-		create_icmp_socket.c		\
-		signals.c					\
-		checksum.c					\
-		send_datagram.c				\
-		recv_datagram.c				\
-		alarm.c						\
-		get_options.c				\
-		cleanup.c					\
-		get_elapsed_time.c			\
-		ping.c						\
-		send_and_recv_datagram.c	\
-		print_ping_header.c			\
+SRCS =	main.c					\
+		libft.c					\
+		flags_handlers.c		\
+		parse_options.c			\
+		icmp_datagram.c			\
+		logs.c					\
+		resolve_service.c		\
+		get_ip_address.c		\
+		create_icmp_socket.c	\
+		signals.c				\
+		checksum.c				\
+		send_datagram.c			\
+		recv_datagram.c			\
+		alarm.c					\
+		get_options.c			\
+		cleanup.c				\
+		get_elapsed_time.c		\
+		ping.c					\
+		ping_datagram.c			\
+		print_ping_header.c		\
 		print_ping_result.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)

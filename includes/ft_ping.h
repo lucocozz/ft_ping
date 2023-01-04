@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/03 16:48:31 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:48:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,8 @@ uint16_t		checksum(uint16_t *addr, size_t len);
 float	get_elapsed_time(struct timeval start, struct timeval end);
 
 /* ping */
-int	ping(t_options options, struct addrinfo *address, int socket);
-int	send_and_recv_datagram(t_options options, int socket, t_icmp_datagram datagram,
-		struct addrinfo *address, char *ip, int seq);
+int			ping(t_options options, struct addrinfo *address, int socket);
+t_recv_data	ping_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
 
 /* display */
 void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);

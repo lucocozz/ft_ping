@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recv_datagram.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/03 16:50:47 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:17:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ struct msghdr	__init_msg(struct sockaddr address)
 {
 	struct iovec	iov;
 	struct msghdr	msg;
-	char			buffer[1024];
+	char			buffer[2048];
 	int				ctrl_buffer[CMSG_SPACE(sizeof(int))];
 	
 	iov.iov_base = buffer;
@@ -62,16 +62,21 @@ t_recv_data	recv_datagram(int socket, struct addrinfo *address)
 	t_recv_data			data = {.timeout = false, .ttl_exceeced = false};
 
 	msg = __init_msg(*address->ai_addr);
-	data.bytes = recvmsg(socket, &msg, MSG_ERRQUEUE);
-	printf("bytes = %d\n", data.bytes);
-	data.ttl_exceeced = __ttl_exceeded(&msg);
-	if (data.bytes == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
-		data.timeout = true;
+	data.bytes = recvmsg(socket, &msg, MSG_ERRQUEUE | MSG_DONTWAIT);
+	if (data.bytes == -1) {
+		printf("bytes = %d\n", data.bytes);
+		if (errno == EAGAIN || errno == EWOULDBLOCK) {
+			data.timeout = true;
+			return (data);
+		}
+		printf("error: %s\n", strerror(errno));
 		return (data);
 	}
-	else if (data.bytes == -1)
+	else if (msg.msg_flags & MSG_ERRQUEUE)
+	{
+		data.ttl_exceeced = __ttl_exceeded(&msg);
 		return (data);
+	}
 	data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
-	printf("ttl_exceeced = %d\n", data.ttl_exceeced);
 	return (data);
 }

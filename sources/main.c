@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:39:11 by user42            #+#    #+#             */
-/*   Updated: 2022/12/29 22:48:08 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:49:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int main(int argc, char **argv)
 	result = ping(options, address, socket);
 	cleanup(socket, address);
 	if (result == -1)
-		fatal(EXIT_FAILURE, MSG_FATAL);
+		fatal(EXIT_FAILURE, strerror(errno));
 	return (EXIT_SUCCESS);
 }
