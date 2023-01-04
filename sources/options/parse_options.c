@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2022/12/29 15:50:53 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/03 16:49:20 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 		{.flag = 's', .handler = &handle_flag_s, .has_argument = true},
 		{.flag = 't', .handler = &handle_flag_t, .has_argument = true},
 		{.flag = 'w', .handler = &handle_flag_w, .has_argument = true},
+		{.flag = 'W', .handler = &handle_flag_W, .has_argument = true},
 		{0}
 	};
 	
@@ -54,6 +55,7 @@ static t_options	__init_options(void)
 	options.destination = DFT_DESTINATION;
 	options.interval = DFT_INTERVAL;
 	options.timestamps = DFT_TIMESTAMPS;
+	options.timeout = (struct timeval){.tv_sec = DFT_TIMEOUT, .tv_usec = 0};
 	options.quiet = DFT_QUIET;
 	options.size = DFT_SIZE;
 	options.ttl = DFT_TTL;

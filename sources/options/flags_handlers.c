@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2022/12/24 19:30:02 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/03 16:47:31 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,21 @@ void	handle_flag_w(t_options *data, char *argument)
 		fatal(EXIT_FAILURE, msg);
 	}
 	data->wait = value;
+}
+
+void	handle_flag_W(t_options *data, char *argument)
+{
+	int		value;
+	char	msg[256] = {0};
+
+	if (ft_is_integer(argument) == false) {
+		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
+		fatal(EXIT_FAILURE, msg);
+	}
+	value = ft_atoi(argument);
+	if (!(value >= 0 && value <= __INT32_MAX__)) {
+		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __INT32_MAX__);
+		fatal(EXIT_FAILURE, msg);
+	}
+	data->timeout.tv_sec = value;
 }

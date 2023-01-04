@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 12:31:34 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/12/29 14:51:46 by lucocozz         ###   ########.fr       */
+/*   Updated: 2022/12/30 12:38:53 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_ip_address(struct addrinfo *address)
 	size_t				size;
 	struct sockaddr_in	*sockaddr = (struct sockaddr_in *)address->ai_addr;
 
-	size = sizeof(char) * (address->ai_family == PF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN);
+	size = sizeof(char) * GET_ADDRLEN(address->ai_family);
 	ip = malloc(size);
 	if (ip == NULL)
 		return (NULL);

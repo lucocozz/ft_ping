@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2022/12/29 16:47:59 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/03 16:48:31 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 
 # define IMPLEMENT_PING
 
+# define GET_LEVEL(family) (family == PF_INET ? IPPROTO_IP : IPPROTO_IPV6)
+# define GET_ADDRLEN(family) (family == PF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN)
+
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002
 
@@ -41,6 +44,7 @@
 # define DFT_DESTINATION NULL
 # define DFT_INTERVAL 1000000
 # define DFT_TIMESTAMPS false
+# define DFT_TIMEOUT 4
 # define DFT_QUIET false
 # define DFT_SIZE 56
 # define DFT_TTL 64
@@ -69,20 +73,22 @@
 "-i <interval>	seconds between sending each packet\n"			\
 "-s <size>	use <size> as number of data bytes to be sent\n"	\
 "-t <ttl>	define time to live\n"								\
-"-w <deadline>	reply wait <deadline> in seconds\n"
+"-w <deadline>	reply wait <deadline> in seconds\n"				\
+"-W <timeout>	Time to wait for response\n"
 
 typedef struct s_options
 {
-	char		*destination;
-	int			interval;
-	bool		timestamps;
-	bool		verbose;
-	int			family;
-	long long	count;
-	bool		quiet;
-	int			size;
-	int			wait;
-	short		ttl;
+	char			*destination;
+	int				interval;
+	struct timeval	timeout;
+	bool			timestamps;
+	bool			verbose;
+	int				family;
+	long long		count;
+	bool			quiet;
+	int				size;
+	int				wait;
+	short			ttl;
 }	t_options;
 
 typedef struct s_option_table
@@ -101,6 +107,15 @@ typedef struct s_icmp_datagram
 	size_t			total;
 } t_icmp_datagram;
 
+typedef struct s_recv_data
+{
+	int		ttl;
+	bool	ttl_exceeced;
+	int		bytes;
+	bool	timeout;
+	float	time;
+}	t_recv_data;
+
 extern bool g_running;
 
 /* system */
@@ -118,7 +133,7 @@ int				create_icmp_socket(t_options options, struct addrinfo *address);
 t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t code);
 void			delete_icmp_datagram(t_icmp_datagram *datagram);
 int				send_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
-int				recv_datagram(int socket, struct addrinfo *address);
+t_recv_data		recv_datagram(int socket, struct addrinfo *address);
 
 /* ip */
 char			*get_ip_address(struct addrinfo *address);
@@ -130,12 +145,12 @@ float	get_elapsed_time(struct timeval start, struct timeval end);
 
 /* ping */
 int	ping(t_options options, struct addrinfo *address, int socket);
-int	send_and_recv_datagram(int socket, t_icmp_datagram datagram,
+int	send_and_recv_datagram(t_options options, int socket, t_icmp_datagram datagram,
 		struct addrinfo *address, char *ip, int seq);
 
 /* display */
 void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);
-void	print_ping_result(int bytes, char *ip, int seq, float diff);
+void	print_ping_result(t_options options, t_recv_data data, char *ip, int seq);
 
 /* options */
 t_options	get_options(int argc, char **argv);
@@ -150,5 +165,6 @@ void	handle_flag_q(t_options *data, char *argument);
 void	handle_flag_s(t_options *data, char *argument);
 void	handle_flag_t(t_options *data, char *argument);
 void	handle_flag_w(t_options *data, char *argument);
+void	handle_flag_W(t_options *data, char *argument);
 
 #endif

@@ -6,29 +6,72 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/12/29 16:16:20 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/03 16:50:47 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-int	recv_datagram(int socket, struct addrinfo *address)
+struct msghdr	__init_msg(struct sockaddr address)
 {
-	struct iovec		iov;
-	struct msghdr		msg;
-	int					bytes;
-	char				buffer[1024];
-	struct sockaddr_in	name = *(struct sockaddr_in *)address->ai_addr;
-	socklen_t			name_len = sizeof(name);
-
+	struct iovec	iov;
+	struct msghdr	msg;
+	char			buffer[1024];
+	int				ctrl_buffer[CMSG_SPACE(sizeof(int))];
+	
 	iov.iov_base = buffer;
 	iov.iov_len = sizeof(buffer);
-	msg.msg_name = &name;
-	msg.msg_namelen = name_len;
+	msg.msg_name = &address;
+	msg.msg_namelen = sizeof(address);
 	msg.msg_iov = &iov;
 	msg.msg_iovlen = 1;
-	msg.msg_control = NULL;
-	msg.msg_controllen = 0;
-	bytes = recvmsg(socket, &msg, 0);
-	return (bytes);
+	msg.msg_control = ctrl_buffer;
+	msg.msg_controllen = CMSG_SPACE(sizeof(ctrl_buffer));
+	return (msg);
+}
+
+static int	__get_ttl(struct msghdr header, int level)
+{
+	int					ttl = -1;
+	struct cmsghdr		*ctrl_msg;
+
+	ctrl_msg = CMSG_FIRSTHDR(&header);
+	while (ctrl_msg != NULL) {
+		if (ctrl_msg->cmsg_level == level && ctrl_msg->cmsg_type == IP_TTL) {
+			ttl = *((int *)CMSG_DATA(ctrl_msg));
+			break ;
+		}
+		CMSG_NXTHDR(&header, ctrl_msg);
+	}
+	return (ttl);
+}
+
+static bool	__ttl_exceeded(struct msghdr *msg)
+{
+	struct icmphdr *icmp_header = (struct icmphdr *)msg->msg_iov[0].iov_base;
+
+	printf("type: %d\ncode: %d\n", icmp_header->type, icmp_header->code);
+	if (icmp_header->type == ICMP_TIME_EXCEEDED && icmp_header->code == 0)
+		return (true);
+	return (false);
+}
+
+t_recv_data	recv_datagram(int socket, struct addrinfo *address)
+{
+	struct msghdr		msg;
+	t_recv_data			data = {.timeout = false, .ttl_exceeced = false};
+
+	msg = __init_msg(*address->ai_addr);
+	data.bytes = recvmsg(socket, &msg, MSG_ERRQUEUE);
+	printf("bytes = %d\n", data.bytes);
+	data.ttl_exceeced = __ttl_exceeded(&msg);
+	if (data.bytes == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) {
+		data.timeout = true;
+		return (data);
+	}
+	else if (data.bytes == -1)
+		return (data);
+	data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
+	printf("ttl_exceeced = %d\n", data.ttl_exceeced);
+	return (data);
 }

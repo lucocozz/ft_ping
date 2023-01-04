@@ -289,3 +289,4 @@ man socket raw: http://manpagesfr.free.fr/man/man7/raw.7.html
 protocol ICMP:
  - wiki: https://fr.wikipedia.org/wiki/Internet_Control_Message_Protocol
  - rfc: http://abcdrfc.free.fr/rfc-vf/rfc0792.html
+ - header type/code: https://erg.abdn.ac.uk/users/gorry/course/inet-pages/icmp-code.html
