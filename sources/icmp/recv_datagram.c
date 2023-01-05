@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 01:31:03 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/05 02:04:31 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,27 @@ static int	__get_ttl(struct msghdr header, int level)
 	return (ttl);
 }
 
-static bool	__ttl_exceeded(struct msghdr *msg)
+static bool	__ttl_exceeded(struct msghdr msg)
 {
-	struct icmphdr *icmp_header = (struct icmphdr *)(msg->msg_iov->iov_base + sizeof(struct iphdr));
+	struct icmphdr *icmp_header = (struct icmphdr *)(msg.msg_iov->iov_base + sizeof(struct iphdr));
 
 	if (icmp_header->type == ICMP_TIME_EXCEEDED && icmp_header->code == 0)
 		return (ERR_TTL_EXCEEPTED);
 	return (NOERROR);
+}
+
+//TODO: comprendre pourquoi ttl exceeced fail quand est appeler dans une sous fonction
+
+static short	__get_error(int bytes, struct msghdr msg)
+{
+	// (void)msg;
+	if (bytes == -1) {
+		if (errno == EAGAIN || errno == EWOULDBLOCK)
+			return (ERR_TIMEOUT);
+		return (ERR_UNDEFINED);
+	}
+	// return (NOERROR);
+	return (__ttl_exceeded(msg));
 }
 
 t_recv_data	recv_datagram(int socket, struct addrinfo *address)
@@ -62,15 +76,8 @@ t_recv_data	recv_datagram(int socket, struct addrinfo *address)
 
 	msg = __init_msg(*address->ai_addr);
 	data.bytes = recvmsg(socket, &msg, 0);
-	if (data.bytes == -1) {
-		if (errno == EAGAIN || errno == EWOULDBLOCK) {
-			data.error = ERR_TIMEOUT;
-			return (data);
-		}
-		data.error = ERR_UNDEFINED;
-		return (data);
-	}
-	data.error = __ttl_exceeded(&msg);
+	data.error = __get_error(data.bytes, msg);
+	// data.error = __ttl_exceeded(msg);
 	data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
 	return (data);
 }
