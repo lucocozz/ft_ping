@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recv_datagram.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/04 17:17:04 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 01:31:03 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,35 +48,29 @@ static int	__get_ttl(struct msghdr header, int level)
 
 static bool	__ttl_exceeded(struct msghdr *msg)
 {
-	struct icmphdr *icmp_header = (struct icmphdr *)msg->msg_iov[0].iov_base;
+	struct icmphdr *icmp_header = (struct icmphdr *)(msg->msg_iov->iov_base + sizeof(struct iphdr));
 
-	printf("type: %d\ncode: %d\n", icmp_header->type, icmp_header->code);
 	if (icmp_header->type == ICMP_TIME_EXCEEDED && icmp_header->code == 0)
-		return (true);
-	return (false);
+		return (ERR_TTL_EXCEEPTED);
+	return (NOERROR);
 }
 
 t_recv_data	recv_datagram(int socket, struct addrinfo *address)
 {
 	struct msghdr		msg;
-	t_recv_data			data = {.timeout = false, .ttl_exceeced = false};
+	t_recv_data			data = {.error = NOERROR};
 
 	msg = __init_msg(*address->ai_addr);
-	data.bytes = recvmsg(socket, &msg, MSG_ERRQUEUE | MSG_DONTWAIT);
+	data.bytes = recvmsg(socket, &msg, 0);
 	if (data.bytes == -1) {
-		printf("bytes = %d\n", data.bytes);
 		if (errno == EAGAIN || errno == EWOULDBLOCK) {
-			data.timeout = true;
+			data.error = ERR_TIMEOUT;
 			return (data);
 		}
-		printf("error: %s\n", strerror(errno));
+		data.error = ERR_UNDEFINED;
 		return (data);
 	}
-	else if (msg.msg_flags & MSG_ERRQUEUE)
-	{
-		data.ttl_exceeced = __ttl_exceeded(&msg);
-		return (data);
-	}
+	data.error = __ttl_exceeded(&msg);
 	data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
 	return (data);
 }

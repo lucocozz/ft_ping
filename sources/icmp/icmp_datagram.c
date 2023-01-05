@@ -24,6 +24,8 @@ t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t cod
 	datagram.data = datagram.raw + sizeof(struct icmphdr);
 	datagram.header->type = type;
 	datagram.header->code = code;
+	datagram.header->un.echo.id = getuid();
+	datagram.header->un.echo.sequence = 0;
 	datagram.size = data_size;
 	datagram.total = data_size + sizeof(struct icmphdr);
 	return (datagram);

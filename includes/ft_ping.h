@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/04 16:48:39 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 01:27:49 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@
 # define DFT_TTL 64
 # define DFT_WAIT 0
 # define DFT_FAMILY PF_INET
+
+# define NOERROR 0
+# define ERR_UNDEFINED -1
+# define ERR_TTL_EXCEEPTED 1
+# define ERR_TIMEOUT 2
 
 # define MSG_NAME "ft_ping: "
 # define MSG_FATAL "Fatal error"
@@ -110,10 +115,9 @@ typedef struct s_icmp_datagram
 typedef struct s_recv_data
 {
 	int		ttl;
-	bool	ttl_exceeced;
 	int		bytes;
-	bool	timeout;
 	float	time;
+	short	error;
 }	t_recv_data;
 
 extern bool g_running;

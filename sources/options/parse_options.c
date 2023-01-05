@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2023/01/03 16:49:20 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/04 23:25:04 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ t_options	parse_options(int argc, char **argv)
 			flag = &argv[i][1];
 			while (*flag != '\0')
 			{
-				if (*(flag + 1) != '\0')
+				if (*(flag + 1) != '\0') {
 					__check_flag(&options, *flag, (flag + 1));
+					break ;
+				}
 				else if (i < argc - 1)
 					i += __check_flag(&options, *flag, argv[i + 1]);
 				else
