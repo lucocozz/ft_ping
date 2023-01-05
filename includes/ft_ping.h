@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/05 01:27:49 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/05 16:34:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002
+# define MSG_BUFFER_SIZE 2048
 
 # define DFT_COUNT -1
 # define DFT_VERBOSE false

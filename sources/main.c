@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:39:11 by user42            #+#    #+#             */
-/*   Updated: 2023/01/04 16:49:25 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 16:52:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 	set_alarm(options);
 	result = ping(options, address, socket);
 	cleanup(socket, address);
-	if (result == -1)
+	if (result == ERR_UNDEFINED)
 		fatal(EXIT_FAILURE, strerror(errno));
 	return (EXIT_SUCCESS);
 }

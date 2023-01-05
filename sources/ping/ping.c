@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:15 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/04 17:04:32 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 16:52:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ int ping(t_options options, struct addrinfo *address, int socket)
 	for (uint i = 0; g_running == true && i != options.count; ++i) {
 		result = ping_datagram(socket, datagram, address);
 		print_ping_result(options, result, ip, i + 1);
-		// if (result.bytes == -1 && (result.timeout != true || result.ttl_exceeced != true))
-		// 	break ;
+		if (result.error == ERR_UNDEFINED)
+			break ;
 		if (i != options.count - 1)
 			usleep(options.interval);
 	}
 	free(ip);
 	delete_icmp_datagram(&datagram);
-	return (result.bytes);
+	return (result.error);
 }
