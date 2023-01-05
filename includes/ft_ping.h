@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/05 16:34:27 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 19:36:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_recv_data
 {
 	int		ttl;
 	int		bytes;
+	char	from_addr[48];
 	float	time;
 	short	error;
 }	t_recv_data;
@@ -138,7 +139,7 @@ int				create_icmp_socket(t_options options, struct addrinfo *address);
 t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t code);
 void			delete_icmp_datagram(t_icmp_datagram *datagram);
 int				send_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
-t_recv_data		recv_datagram(int socket, struct addrinfo *address);
+t_recv_data		recv_datagram(int socket, int family);
 
 /* ip */
 char			*get_ip_address(struct addrinfo *address);

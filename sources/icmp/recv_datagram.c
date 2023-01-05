@@ -6,19 +6,19 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 17:16:54 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 19:40:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-struct msghdr	__init_msg(struct sockaddr address, struct iovec *iov)
+struct msghdr	__init_msg(struct sockaddr_in *src_addr, struct iovec *iov)
 {
-	struct msghdr	msg;
+	struct msghdr	msg = {0};
 	int				ctrl_buffer[CMSG_SPACE(sizeof(int))];
 	
-	msg.msg_name = &address;
-	msg.msg_namelen = sizeof(address);
+	msg.msg_name = src_addr;
+	msg.msg_namelen = sizeof(*src_addr);
 	msg.msg_iov = iov;
 	msg.msg_iovlen = 1;
 	msg.msg_control = ctrl_buffer;
@@ -61,19 +61,22 @@ static short	__get_error(int bytes, void **buffer)
 	return (__ttl_exceeded(buffer));
 }
 
-t_recv_data	recv_datagram(int socket, struct addrinfo *address)
+t_recv_data	recv_datagram(int socket, int family)
 {
-	struct iovec	iov;
-	struct msghdr	msg;
-	char			buffer[MSG_BUFFER_SIZE];
-	t_recv_data		data = {.error = NOERROR};
+	struct iovec		iov;
+	struct msghdr		msg;
+	struct sockaddr_in	from_addr;
+	char				buffer[MSG_BUFFER_SIZE];
+	t_recv_data			data = {.error = NOERROR};
 
 	iov.iov_base = buffer;
 	iov.iov_len = MSG_BUFFER_SIZE;
-	msg = __init_msg(*address->ai_addr, &iov);
+	msg = __init_msg(&from_addr, &iov);
 	data.bytes = recvmsg(socket, &msg, 0);
 	data.error = __get_error(data.bytes, &msg.msg_iov->iov_base);
-	if (data.error == NOERROR)
-		data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
+	inet_ntop(family, &from_addr.sin_addr, data.from_addr, GET_ADDRLEN(family));
+	if (data.error == NOERROR) {
+		data.ttl = __get_ttl(msg, GET_LEVEL(family));
+	}
 	return (data);
 }
