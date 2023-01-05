@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recv_datagram.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 19:40:03 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 21:19:27 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ t_recv_data	recv_datagram(int socket, int family)
 	msg = __init_msg(&from_addr, &iov);
 	data.bytes = recvmsg(socket, &msg, 0);
 	data.error = __get_error(data.bytes, &msg.msg_iov->iov_base);
-	inet_ntop(family, &from_addr.sin_addr, data.from_addr, GET_ADDRLEN(family));
 	if (data.error == NOERROR) {
 		data.ttl = __get_ttl(msg, GET_LEVEL(family));
 	}
+	inet_ntop(family, &from_addr.sin_addr, data.from_addr, GET_ADDRLEN(family));
 	return (data);
 }
