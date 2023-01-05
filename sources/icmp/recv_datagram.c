@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 16:59:49 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 17:16:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_recv_data	recv_datagram(int socket, struct addrinfo *address)
 	msg = __init_msg(*address->ai_addr, &iov);
 	data.bytes = recvmsg(socket, &msg, 0);
 	data.error = __get_error(data.bytes, &msg.msg_iov->iov_base);
-	data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
+	if (data.error == NOERROR)
+		data.ttl = __get_ttl(msg, GET_LEVEL(address->ai_family));
 	return (data);
 }
