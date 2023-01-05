@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 21:19:27 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/05 22:36:59 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ t_recv_data	recv_datagram(int socket, int family)
 		data.ttl = __get_ttl(msg, GET_LEVEL(family));
 	}
 	inet_ntop(family, &from_addr.sin_addr, data.from_addr, GET_ADDRLEN(family));
+	getnameinfo((struct sockaddr*)&from_addr, sizeof(from_addr), data.ptr_record, PTR_RECORD_SIZE, NULL, 0, 0);
 	return (data);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/05 19:36:22 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/05 22:47:14 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002
 # define MSG_BUFFER_SIZE 2048
+# define PTR_RECORD_SIZE 64
 
 # define DFT_COUNT -1
 # define DFT_VERBOSE false
@@ -117,6 +118,7 @@ typedef struct s_recv_data
 {
 	int		ttl;
 	int		bytes;
+	char	ptr_record[PTR_RECORD_SIZE];
 	char	from_addr[48];
 	float	time;
 	short	error;
@@ -145,6 +147,7 @@ t_recv_data		recv_datagram(int socket, int family);
 char			*get_ip_address(struct addrinfo *address);
 struct addrinfo	*resolve_service(const char *service, int family);
 uint16_t		checksum(uint16_t *addr, size_t len);
+bool			is_ip_format(int family, char *ip);
 
 /* utils */
 float	get_elapsed_time(struct timeval start, struct timeval end);
@@ -155,7 +158,7 @@ t_recv_data	ping_datagram(int socket, t_icmp_datagram datagram, struct addrinfo 
 
 /* display */
 void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);
-void	print_ping_result(t_options options, t_recv_data data, char *ip, int seq);
+void	print_ping_result(t_options options, t_recv_data data, int seq);
 
 /* options */
 t_options	get_options(int argc, char **argv);
