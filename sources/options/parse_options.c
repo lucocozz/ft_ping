@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_options.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2023/01/04 23:25:04 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:45:41 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 		{.flag = 'v', .handler = &handle_flag_v, .has_argument = false},
 		{.flag = 'D', .handler = &handle_flag_D, .has_argument = false},
 		{.flag = 'q', .handler = &handle_flag_q, .has_argument = false},
+		{.flag = '4', .handler = &handle_flag_4, .has_argument = false},
+		{.flag = '6', .handler = &handle_flag_6, .has_argument = false},
+		{.flag = 'b', .handler = &handle_flag_b, .has_argument = false},
 		{.flag = 'c', .handler = &handle_flag_c, .has_argument = true},
 		{.flag = 'i', .handler = &handle_flag_i, .has_argument = true},
 		{.flag = 's', .handler = &handle_flag_s, .has_argument = true},
@@ -28,7 +31,7 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 		{.flag = 'W', .handler = &handle_flag_W, .has_argument = true},
 		{0}
 	};
-	
+
 	for (i = 0; options[i].flag != 0; ++i) {
 		if (flag == options[i].flag) {
 			if (options[i].has_argument == true && argument == NULL) {
@@ -61,6 +64,7 @@ static t_options	__init_options(void)
 	options.ttl = DFT_TTL;
 	options.wait = DFT_WAIT;
 	options.family = DFT_FAMILY;
+	options.broadcast = DFT_BROADCAST;
 	return (options);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flags_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2023/01/03 16:47:31 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:44:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,22 @@ void	handle_flag_W(t_options *data, char *argument)
 		fatal(EXIT_FAILURE, msg);
 	}
 	data->timeout.tv_sec = value;
+}
+
+void	handle_flag_4(t_options *data, char *argument)
+{
+	(void)argument;
+	data->family = PF_INET;
+}
+
+void	handle_flag_6(t_options *data, char *argument)
+{
+	(void)argument;
+	data->family = PF_INET6;
+}
+
+void	handle_flag_b(t_options *data, char *argument)
+{
+	(void)argument;
+	data->broadcast = true;
 }

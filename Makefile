@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/01/06 16:27:04 by user42           ###   ########.fr        #
+#    Updated: 2023/01/06 20:59:04 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,8 @@ _IP =						\
 	checksum.c				\
 	get_ip_address.c		\
 	is_ip_format.c			\
-	resolve_service.c
+	resolve_service.c		\
+	is_ip_broadcast.c
 
 _OPTIONS =					\
 	flags_handlers.c		\

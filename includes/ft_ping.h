@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 12:22:22 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:56:16 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define DFT_TTL 64
 # define DFT_WAIT 0
 # define DFT_FAMILY PF_INET
+# define DFT_BROADCAST false
 
 # define NOERROR 0
 # define ERR_UNDEFINED -1
@@ -66,6 +67,8 @@
 # define MSG_INVALID_ARG "invalid argument:"
 # define MSG_FLOOD "cannot flood; minimal interval allowed for user is 2ms"
 # define MSG_USAGE_ERR "usage error: Destination address required"
+# define MSG_BROADCAST "Do you want to ping broadcast? Then -b. If not, check your local firewall rules."
+# define MSG_WARN_BROADCAST "pinging broadcast address"
 
 # define PING_HELP												\
 "Usage\n"														\
@@ -81,7 +84,11 @@
 "-s <size>	use <size> as number of data bytes to be sent\n"	\
 "-t <ttl>	define time to live\n"								\
 "-w <deadline>	reply wait <deadline> in seconds\n"				\
-"-W <timeout>	Time to wait for response\n"
+"-W <timeout>	Time to wait for response\n"					\
+"\nIPv4 options:\n"												\
+"  -4		Use IPv4\n"											\
+"\nIPv6 options:\n"												\
+"  -6		Use IPv6\n"
 
 typedef struct s_options
 {
@@ -90,6 +97,7 @@ typedef struct s_options
 	struct timeval	timeout;
 	bool			timestamps;
 	bool			verbose;
+	bool			broadcast;
 	int				family;
 	long long		count;
 	bool			quiet;
@@ -161,6 +169,7 @@ char			*get_ip_address(struct addrinfo *address);
 struct addrinfo	*resolve_service(const char *service, int family);
 uint16_t		checksum(uint16_t *addr, size_t len);
 bool			is_ip_format(int family, char *ip);
+int				is_ip_broadcast(int family, char *ip);
 
 /* utils */
 float	get_elapsed_time(struct timeval start, struct timeval end);
@@ -189,5 +198,8 @@ void	handle_flag_s(t_options *data, char *argument);
 void	handle_flag_t(t_options *data, char *argument);
 void	handle_flag_w(t_options *data, char *argument);
 void	handle_flag_W(t_options *data, char *argument);
+void	handle_flag_4(t_options *data, char *argument);
+void	handle_flag_6(t_options *data, char *argument);
+void	handle_flag_b(t_options *data, char *argument);
 
 #endif

@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   is_ip_broadcast.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/24 15:28:15 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/06 18:01:50 by user42           ###   ########.fr       */
+/*   Created: 2023/01/06 18:15:04 by user42            #+#    #+#             */
+/*   Updated: 2023/01/06 21:36:17 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-void	set_signals_handlers(void)
+int	is_ip_broadcast(int family, char *ip)
 {
-	signal(SIGALRM, &handle_signals);
-	signal(SIGINT, &handle_signals);
-	signal(SIGQUIT, &handle_signals);
-}
+	struct in_addr	addr;
+	// struct in_addr	mask;
 
-void	handle_signals(int signum)
-{
-	(void)signum;
-	g_running = false;
+	if (inet_net_pton(family, ip, &addr, sizeof(addr)) != 1)
+		return (-1);
+	if (addr.s_addr == INADDR_BROADCAST)
+		return (1);
+	return (0);
 }
