@@ -3,39 +3,62 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
+#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/01/06 02:21:34 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/01/06 16:27:04 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
 
 SRCS =	main.c					\
-		libft.c					\
-		flags_handlers.c		\
-		parse_options.c			\
-		icmp_datagram.c			\
-		logs.c					\
-		resolve_service.c		\
-		get_ip_address.c		\
-		create_icmp_socket.c	\
-		signals.c				\
-		checksum.c				\
-		send_datagram.c			\
-		recv_datagram.c			\
-		alarm.c					\
-		get_options.c			\
-		cleanup.c				\
-		get_elapsed_time.c		\
-		ping.c					\
-		ping_datagram.c			\
-		print_ping_header.c		\
-		print_ping_result.c		\
-		is_ip_format.c			\
-		print_ping_stats.c		\
-		set_ping_stats.c
+		$(_PING)				\
+		$(_DISPLAY)				\
+		$(_ICMP)				\
+		$(_IP)					\
+		$(_OPTIONS)				\
+		$(_SYSTEM)				\
+		$(_UTILS)				\
+		$(_LIBS)
+
+_PING =						\
+	ping.c					\
+	ping_datagram.c			\
+	set_ping_stats.c
+
+_DISPLAY = 					\
+	print_ping_header.c		\
+	print_ping_result.c		\
+	print_ping_stats.c
+
+_ICMP =						\
+	create_icmp_socket.c	\
+	icmp_datagram.c			\
+	send_datagram.c			\
+	recv_datagram.c
+
+_IP =						\
+	checksum.c				\
+	get_ip_address.c		\
+	is_ip_format.c			\
+	resolve_service.c
+
+_OPTIONS =					\
+	flags_handlers.c		\
+	get_options.c			\
+	parse_options.c
+
+_SYSTEM =					\
+	alarm.c					\
+	cleanup.c				\
+	logs.c					\
+	signals.c
+
+_UTILS =					\
+	get_elapsed_time.c
+
+_LIBS = libft.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 DEPENDENCIES = $(OBJS:%.o=%.d)
