@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 02:42:35 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 12:22:22 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ typedef struct s_rtt_stats
 {
 	uint		transmitted;
 	uint		received;
+	uint		error;
 	__u_short	loss;
 	uint		time;
 	float		min;

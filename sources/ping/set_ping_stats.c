@@ -6,13 +6,11 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 02:19:54 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/06 12:15:53 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 12:24:59 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
-
-//TODO: ajouter la stats erreur et fix avg et mdev
 
 void	set_ping_stats(t_rtt_stats *stats, t_recv_data result)
 {
@@ -22,6 +20,8 @@ void	set_ping_stats(t_rtt_stats *stats, t_recv_data result)
 	stats->transmitted++;
 	if (result.error == NOERROR)
 		stats->received++;
+	if (result.error != NOERROR && result.error != ERR_TIMEOUT)
+		stats->error++;
 	stats->loss = (stats->transmitted - stats->received) / stats->transmitted * 100;
 	stats->time += (result.time * 100);
 	if (result.time < stats->min)
