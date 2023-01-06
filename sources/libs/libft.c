@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:58:25 by user42            #+#    #+#             */
-/*   Updated: 2022/12/12 18:38:22 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/06 12:11:49 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,4 +134,17 @@ void	ft_bzero(void *s, size_t n)
 
 	for (uint i = 0; i < n; ++i)
 		ptr[i] = 0;
+}
+
+double ft_sqrt(double n)
+{
+	double x = n;
+	double y = 1;
+	double e = 0.000001;
+
+	while (x - y > e) {
+		x = (x + y) / 2;
+		y = n / x;
+	}
+	return (x);
 }

@@ -6,7 +6,7 @@
 #    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/01/06 01:11:18 by lucocozz         ###   ########.fr        #
+#    Updated: 2023/01/06 02:21:34 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,9 @@ SRCS =	main.c					\
 		ping_datagram.c			\
 		print_ping_header.c		\
 		print_ping_result.c		\
-		is_ip_format.c
+		is_ip_format.c			\
+		print_ping_stats.c		\
+		set_ping_stats.c
 
 OBJS = $(SRCS:%.c=$(OBJS_DIR)/%.o)
 DEPENDENCIES = $(OBJS:%.o=%.d)

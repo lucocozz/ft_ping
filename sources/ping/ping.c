@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:15 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 22:56:08 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:42:53 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int ping(t_options options, struct addrinfo *address, int socket)
 	char			*ip;
 	t_recv_data		result;
 	t_icmp_datagram	datagram;
+	t_rtt_stats		stats = {.min = __FLT_MAX__, .max = 0};
 
 	datagram = create_icmp_datagram(options.size, ICMP_ECHO, 0);
 	if (datagram.raw == NULL)
@@ -30,11 +31,13 @@ int ping(t_options options, struct addrinfo *address, int socket)
 	for (uint i = 0; g_running == true && i != options.count; ++i) {
 		result = ping_datagram(socket, datagram, address);
 		print_ping_result(options, result, i + 1);
+		set_ping_stats(&stats, result);
 		if (result.error == ERR_UNDEFINED)
 			break ;
 		if (i != options.count - 1)
 			usleep(options.interval);
 	}
+	print_ping_stats(options, stats);
 	delete_icmp_datagram(&datagram);
 	return (result.error);
 }

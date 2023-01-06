@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 01:11:47 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:42:35 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,18 @@ typedef struct s_recv_data
 	short	error;
 }	t_recv_data;
 
+typedef struct s_rtt_stats
+{
+	uint		transmitted;
+	uint		received;
+	__u_short	loss;
+	uint		time;
+	float		min;
+	float		max;
+	float		avg;
+	float		mdev;
+}	t_rtt_stats;
+
 extern bool g_running;
 
 /* system */
@@ -155,10 +167,12 @@ float	get_elapsed_time(struct timeval start, struct timeval end);
 /* ping */
 int			ping(t_options options, struct addrinfo *address, int socket);
 t_recv_data	ping_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
+void		set_ping_stats(t_rtt_stats *stats, t_recv_data result);
 
 /* display */
 void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);
 void	print_ping_result(t_options options, t_recv_data data, int seq);
+void	print_ping_stats(t_options options, t_rtt_stats stats);
 
 /* options */
 t_options	get_options(int argc, char **argv);
