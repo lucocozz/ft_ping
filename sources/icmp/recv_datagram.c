@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/09 15:31:57 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/09 18:35:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static short	__get_error(int bytes, void **buffer)
 	if (bytes == -1) {
 		if (errno == EAGAIN || errno == EWOULDBLOCK)
 			return (ERR_TIMEOUT);
+		else if (errno == ENETUNREACH)
+			return (ERR_NET_UNREACHABLE);
 		return (ERR_UNDEFINED);
 	}
 	return (__ttl_exceeded(buffer));

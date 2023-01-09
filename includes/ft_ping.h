@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/09 15:58:52 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/09 18:21:25 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002
 # define MSG_BUFFER_SIZE 2048
-# define PTR_RECORD_SIZE 64
+# define PTR_RECORD_SIZE 255
 
 # define DFT_COUNT -1
 # define DFT_VERBOSE false
@@ -59,6 +59,7 @@
 # define ERR_UNDEFINED -1
 # define ERR_TTL_EXCEEPTED 1
 # define ERR_TIMEOUT 2
+# define ERR_NET_UNREACHABLE 3
 
 # define MSG_NAME "ft_ping: "
 # define MSG_FATAL "Fatal error"
@@ -172,7 +173,7 @@ char			*get_ip_address(struct addrinfo *address);
 struct addrinfo	*resolve_service(const char *service, int family);
 uint16_t		checksum(uint16_t *addr, size_t len);
 bool			is_ip_format(int family, char *ip);
-int				is_ip_broadcast(int family, char *ip);
+int				is_ip_broadcast(t_options options, struct addrinfo *address);
 
 /* utils */
 float	get_elapsed_time(struct timeval start, struct timeval end);
