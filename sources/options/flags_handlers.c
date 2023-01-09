@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 20:44:55 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/09 15:24:44 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,4 +153,10 @@ void	handle_flag_b(t_options *data, char *argument)
 {
 	(void)argument;
 	data->broadcast = true;
+}
+
+void	handle_flag_n(t_options *data, char *argument)
+{
+	(void)argument;
+	data->no_dns = true;
 }

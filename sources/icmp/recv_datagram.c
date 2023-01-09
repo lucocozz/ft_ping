@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recv_datagram.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/05 22:36:59 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:31:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static short	__get_error(int bytes, void **buffer)
 	return (__ttl_exceeded(buffer));
 }
 
-t_recv_data	recv_datagram(int socket, int family)
+t_recv_data	recv_datagram(t_options options, int socket, int family)
 {
 	struct iovec		iov;
 	struct msghdr		msg;
@@ -78,6 +78,9 @@ t_recv_data	recv_datagram(int socket, int family)
 		data.ttl = __get_ttl(msg, GET_LEVEL(family));
 	}
 	inet_ntop(family, &from_addr.sin_addr, data.from_addr, GET_ADDRLEN(family));
-	getnameinfo((struct sockaddr*)&from_addr, sizeof(from_addr), data.ptr_record, PTR_RECORD_SIZE, NULL, 0, 0);
+	if (options.no_dns == false)
+		getnameinfo((struct sockaddr*)&from_addr, sizeof(from_addr), data.ptr_record, PTR_RECORD_SIZE, NULL, 0, 0);
+	else
+		ft_strcpy(data.ptr_record, data.from_addr);
 	return (data);
 }

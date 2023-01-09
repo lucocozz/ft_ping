@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 20:56:16 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/09 15:58:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 # define DFT_WAIT 0
 # define DFT_FAMILY PF_INET
 # define DFT_BROADCAST false
+# define DFT_NO_DNS false
 
 # define NOERROR 0
 # define ERR_UNDEFINED -1
@@ -75,14 +76,15 @@
 "  ft_ping [option] <destination>\n\n"							\
 "Options:\n"													\
 "<destionation>	dns or ip address\n"							\
-"-h		print help and exit\n"									\
-"-v		verbose output\n"										\
-"-D		print timestamps\n"										\
-"-q		quiet output\n"											\
 "-c <count>	stop after <count> replies\n"						\
+"-D		print timestamps\n"										\
+"-h		print help and exit\n"									\
 "-i <interval>	seconds between sending each packet\n"			\
+"-n		no dns name resolution\n"								\
+"-q		quiet output\n"											\
 "-s <size>	use <size> as number of data bytes to be sent\n"	\
 "-t <ttl>	define time to live\n"								\
+"-v		verbose output\n"										\
 "-w <deadline>	reply wait <deadline> in seconds\n"				\
 "-W <timeout>	Time to wait for response\n"					\
 "\nIPv4 options:\n"												\
@@ -98,6 +100,7 @@ typedef struct s_options
 	bool			timestamps;
 	bool			verbose;
 	bool			broadcast;
+	bool			no_dns;
 	int				family;
 	long long		count;
 	bool			quiet;
@@ -162,7 +165,7 @@ int				create_icmp_socket(t_options options, struct addrinfo *address);
 t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t code);
 void			delete_icmp_datagram(t_icmp_datagram *datagram);
 int				send_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
-t_recv_data		recv_datagram(int socket, int family);
+t_recv_data		recv_datagram(t_options options, int socket, int family);
 
 /* ip */
 char			*get_ip_address(struct addrinfo *address);
@@ -176,7 +179,8 @@ float	get_elapsed_time(struct timeval start, struct timeval end);
 
 /* ping */
 int			ping(t_options options, struct addrinfo *address, int socket);
-t_recv_data	ping_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
+t_recv_data	ping_datagram(t_options options, int socket, t_icmp_datagram datagram,
+				struct addrinfo *address);
 void		set_ping_stats(t_rtt_stats *stats, t_recv_data result);
 
 /* display */
@@ -201,5 +205,6 @@ void	handle_flag_W(t_options *data, char *argument);
 void	handle_flag_4(t_options *data, char *argument);
 void	handle_flag_6(t_options *data, char *argument);
 void	handle_flag_b(t_options *data, char *argument);
+void	handle_flag_n(t_options *data, char *argument);
 
 #endif

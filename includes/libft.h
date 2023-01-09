@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:59:06 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 12:12:05 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/01/09 15:31:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ bool	ft_is_integer(const char *str);
 bool	ft_is_float(const char *str);
 void	ft_bzero(void *s, size_t n);
 double	ft_sqrt(double n);
+char	*ft_strcpy(char *dest, char *src);
 
 #endif

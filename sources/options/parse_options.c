@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2023/01/06 20:45:41 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/09 15:24:14 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 		{.flag = '4', .handler = &handle_flag_4, .has_argument = false},
 		{.flag = '6', .handler = &handle_flag_6, .has_argument = false},
 		{.flag = 'b', .handler = &handle_flag_b, .has_argument = false},
+		{.flag = 'n', .handler = &handle_flag_n, .has_argument = false},
 		{.flag = 'c', .handler = &handle_flag_c, .has_argument = true},
 		{.flag = 'i', .handler = &handle_flag_i, .has_argument = true},
 		{.flag = 's', .handler = &handle_flag_s, .has_argument = true},
@@ -65,6 +66,7 @@ static t_options	__init_options(void)
 	options.wait = DFT_WAIT;
 	options.family = DFT_FAMILY;
 	options.broadcast = DFT_BROADCAST;
+	options.no_dns = DFT_NO_DNS;
 	return (options);
 }
 

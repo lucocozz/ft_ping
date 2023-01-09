@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:15 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/06 20:56:28 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/09 15:28:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int ping(t_options options, struct addrinfo *address, int socket)
 	print_ping_header(options, ip, datagram);
 	free(ip);
 	for (uint i = 0; g_running == true && i != options.count; ++i) {
-		result = ping_datagram(socket, datagram, address);
+		result = ping_datagram(options, socket, datagram, address);
 		print_ping_result(options, result, i + 1);
 		set_ping_stats(&stats, result);
 		if (result.error == ERR_UNDEFINED)
