@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/09 18:21:25 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/13 20:32:20 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <linux/tcp.h>
 # include <string.h>
 # include <errno.h>
+# include <ifaddrs.h>
 # include "libft.h"
 
 # define IMPLEMENT_PING
@@ -40,6 +41,10 @@
 # define MIN_INTERVAL 0.002
 # define MSG_BUFFER_SIZE 2048
 # define PTR_RECORD_SIZE 255
+# define NETMASK_A "255.0.0.0"
+# define NETMASK_B "255.255.0.0"
+# define NETMASK_C "255.255.255.0"
+# define NETMASK_D "255.255.255.255"
 
 # define DFT_COUNT -1
 # define DFT_VERBOSE false
@@ -174,6 +179,7 @@ struct addrinfo	*resolve_service(const char *service, int family);
 uint16_t		checksum(uint16_t *addr, size_t len);
 bool			is_ip_format(int family, char *ip);
 int				is_ip_broadcast(t_options options, struct addrinfo *address);
+char			*get_ip_netmask(char *ip_address);
 
 /* utils */
 float	get_elapsed_time(struct timeval start, struct timeval end);

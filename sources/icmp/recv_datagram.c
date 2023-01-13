@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/09 18:35:31 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/13 17:25:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ static int	__get_ttl(struct msghdr header, int level)
 	struct cmsghdr		*ctrl_msg;
 
 	ctrl_msg = CMSG_FIRSTHDR(&header);
-	while (ctrl_msg != NULL) {
-		if (ctrl_msg->cmsg_level == level && ctrl_msg->cmsg_type == IP_TTL) {
+	while (ctrl_msg != NULL)
+	{
+		if (ctrl_msg->cmsg_level == level && ctrl_msg->cmsg_type == IP_TTL)
+		{
 			ttl = *((int *)CMSG_DATA(ctrl_msg));
 			break ;
 		}
@@ -53,7 +55,8 @@ static bool	__ttl_exceeded(void **buffer)
 
 static short	__get_error(int bytes, void **buffer)
 {
-	if (bytes == -1) {
+	if (bytes == -1)
+	{
 		if (errno == EAGAIN || errno == EWOULDBLOCK)
 			return (ERR_TIMEOUT);
 		else if (errno == ENETUNREACH)
