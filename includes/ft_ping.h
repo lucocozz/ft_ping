@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/13 20:32:20 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/20 01:27:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@
 # define DFT_NO_DNS false
 
 # define NOERROR 0
+# define INTERRUPTED -2
 # define ERR_UNDEFINED -1
 # define ERR_TTL_EXCEEPTED 1
 # define ERR_TIMEOUT 2
 # define ERR_NET_UNREACHABLE 3
+
 
 # define MSG_NAME "ft_ping: "
 # define MSG_FATAL "Fatal error"
@@ -76,6 +78,9 @@
 # define MSG_USAGE_ERR "usage error: Destination address required"
 # define MSG_BROADCAST "Do you want to ping broadcast? Then -b. If not, check your local firewall rules."
 # define MSG_WARN_BROADCAST "pinging broadcast address"
+# define MSG_OPT_GARBAGE "ft_ping: option argument contains garbage"
+# define MSG_WARN_FATAL "ft_ping: this will become fatal error in the future"
+# define MSG_BAD_LINGER_TIME "ft_ping: bad linger time"
 
 # define PING_HELP												\
 "Usage\n"														\

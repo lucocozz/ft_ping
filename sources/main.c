@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:39:11 by user42            #+#    #+#             */
-/*   Updated: 2023/01/13 19:46:31 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/19 22:46:33 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 	options = get_options(argc, argv);
 	address = resolve_service(options.destination, options.family);
 	// __check_broadcast(options, address);
-	printf("mask: %s\n", get_ip_netmask(options.destination));
+	// printf("mask: %s\n", get_ip_netmask(options.destination));
 	socket = create_icmp_socket(options, address);
 	if (socket == -1) {
 		cleanup(-1, address);

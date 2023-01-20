@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2023/01/09 15:24:44 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/20 00:21:02 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,15 +126,15 @@ void	handle_flag_W(t_options *data, char *argument)
 	char	msg[256] = {0};
 
 	if (ft_is_integer(argument) == false) {
-		sprintf(msg, "%s '%s'", MSG_INVALID_ARG, argument);
-		fatal(EXIT_FAILURE, msg);
+		dprintf(STDERR_FILENO, "%s: %s\n", MSG_OPT_GARBAGE, argument);
+		dprintf(STDERR_FILENO, "%s\n", MSG_WARN_FATAL);
 	}
 	value = ft_atoi(argument);
-	if (!(value >= 0 && value <= __INT32_MAX__)) {
-		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __INT32_MAX__);
+	if (value > 2147483) {
+		sprintf(msg, "%s: %s", MSG_BAD_LINGER_TIME, argument);
 		fatal(EXIT_FAILURE, msg);
 	}
-	data->timeout.tv_sec = value;
+	data->timeout.tv_sec = value == 0 ? 1 : value;
 }
 
 void	handle_flag_4(t_options *data, char *argument)

@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/13 17:25:08 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/20 01:28:00 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ static int	__get_ttl(struct msghdr header, int level)
 	return (ttl);
 }
 
-static bool	__ttl_exceeded(void **buffer)
+static int	__get_error_type(void **buffer)
 {
 	struct icmphdr *icmp_header = (struct icmphdr *)(*buffer + sizeof(struct iphdr));
 
 	if (icmp_header->type == ICMP_TIME_EXCEEDED && icmp_header->code == 0)
 		return (ERR_TTL_EXCEEPTED);
+	if (icmp_header->type == ICMP_DEST_UNREACH && icmp_header->code == 0)
+		return (ERR_NET_UNREACHABLE);
 	return (NOERROR);
 }
 
@@ -57,13 +59,13 @@ static short	__get_error(int bytes, void **buffer)
 {
 	if (bytes == -1)
 	{
+		if (errno == EINTR)
+			return (INTERRUPTED);
 		if (errno == EAGAIN || errno == EWOULDBLOCK)
 			return (ERR_TIMEOUT);
-		else if (errno == ENETUNREACH)
-			return (ERR_NET_UNREACHABLE);
 		return (ERR_UNDEFINED);
 	}
-	return (__ttl_exceeded(buffer));
+	return (__get_error_type(buffer));
 }
 
 t_recv_data	recv_datagram(t_options options, int socket, int family)
@@ -72,7 +74,7 @@ t_recv_data	recv_datagram(t_options options, int socket, int family)
 	struct msghdr		msg;
 	struct sockaddr_in	from_addr;
 	char				buffer[MSG_BUFFER_SIZE];
-	t_recv_data			data = {.error = NOERROR};
+	t_recv_data			data;
 
 	iov.iov_base = buffer;
 	iov.iov_len = MSG_BUFFER_SIZE;
