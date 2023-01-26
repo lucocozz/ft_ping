@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/20 01:28:00 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/26 16:13:08 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	__get_error_type(void **buffer)
 {
 	struct icmphdr *icmp_header = (struct icmphdr *)(*buffer + sizeof(struct iphdr));
 
+	if (icmp_header->type == ICMP_ECHOREPLY && icmp_header->un.echo.id != getpid())
+		return (ERR_WRONG_ID);
 	if (icmp_header->type == ICMP_TIME_EXCEEDED && icmp_header->code == 0)
 		return (ERR_TTL_EXCEEPTED);
 	if (icmp_header->type == ICMP_DEST_UNREACH && icmp_header->code == 0)

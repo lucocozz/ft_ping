@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/26 14:51:51 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/26 16:09:55 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@
 # define ERR_TTL_EXCEEPTED 1
 # define ERR_TIMEOUT 2
 # define ERR_NET_UNREACHABLE 3
+# define ERR_WRONG_ID 4
 
 
 # define MSG_NAME "ft_ping: "
