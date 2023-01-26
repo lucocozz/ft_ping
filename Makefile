@@ -6,7 +6,7 @@
 #    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/01/13 19:44:14 by user42           ###   ########.fr        #
+#    Updated: 2023/01/26 14:46:51 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ _PING =						\
 _DISPLAY = 					\
 	print_ping_header.c		\
 	print_ping_result.c		\
-	print_ping_stats.c
+	print_ping_stats.c		\
+	print_sigquit_stats.c
 
 _ICMP =						\
 	create_icmp_socket.c	\

@@ -6,13 +6,16 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 19:39:11 by user42            #+#    #+#             */
-/*   Updated: 2023/01/19 22:46:33 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/26 14:32:52 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-bool g_running = true;
+t_ping g_ping = {
+	.running = true,
+	.stats = {.min = __FLT_MAX__, .max = 0}
+};
 
 // static void	__check_broadcast(t_options options, struct addrinfo *address)
 // {

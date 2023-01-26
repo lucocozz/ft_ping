@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:42:34 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/09 15:28:29 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/26 14:37:30 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_recv_data	ping_datagram(t_options options, int socket, t_icmp_datagram datagra
 
 	if (gettimeofday(&start, NULL) < 0)
 		return ((t_recv_data){.error = ERR_UNDEFINED});
-	send_datagram(socket, datagram, address);
+	if (send_datagram(socket, datagram, address) == -1)
+		verbose(STDERR_FILENO, options.verbose, "send error\n");
 	data = recv_datagram(options, socket, address->ai_family);
 	if (gettimeofday(&end, NULL) < 0)
 		return ((t_recv_data){.error = ERR_UNDEFINED});

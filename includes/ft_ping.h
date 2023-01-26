@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/20 01:27:29 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/26 14:51:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,14 +157,21 @@ typedef struct s_rtt_stats
 	float		max;
 	float		avg;
 	float		mdev;
+	float		ewma;
 }	t_rtt_stats;
 
-extern bool g_running;
+typedef struct s_ping
+{
+	bool		running;
+	t_rtt_stats	stats;
+}	t_ping;
+
+extern t_ping g_ping;
 
 /* system */
 void	warn(const char *msg);
 void	fatal(short status, const char *msg);
-void	verbose(bool is_active, const char *str);
+void	verbose(int fd, bool is_active, const char *str);
 void	set_signals_handlers(void);
 void	handle_signals(int signum);
 void	set_signals_handlers(void);
@@ -193,12 +200,13 @@ float	get_elapsed_time(struct timeval start, struct timeval end);
 int			ping(t_options options, struct addrinfo *address, int socket);
 t_recv_data	ping_datagram(t_options options, int socket, t_icmp_datagram datagram,
 				struct addrinfo *address);
-void		set_ping_stats(t_rtt_stats *stats, t_recv_data result);
+void		set_ping_stats(t_recv_data result);
 
 /* display */
 void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);
 void	print_ping_result(t_options options, t_recv_data data, int seq);
-void	print_ping_stats(t_options options, t_rtt_stats stats);
+void	print_ping_stats(t_options options);
+void	print_sigquit_stats(int signum);
 
 /* options */
 t_options	get_options(int argc, char **argv);

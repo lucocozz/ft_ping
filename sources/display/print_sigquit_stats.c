@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logs.c                                             :+:      :+:    :+:   */
+/*   print_sigquit_stats.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/12 19:40:56 by user42            #+#    #+#             */
-/*   Updated: 2023/01/26 14:28:46 by user42           ###   ########.fr       */
+/*   Created: 2023/01/26 14:40:55 by user42            #+#    #+#             */
+/*   Updated: 2023/01/26 14:59:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-void	fatal(short status, const char *msg)
+void	print_sigquit_stats(int signum)
 {
-	if (msg != NULL)
-		dprintf(STDERR_FILENO, "%s%s\n", MSG_NAME, msg);
-	exit(status);
-}
+	t_rtt_stats	stats = g_ping.stats;
 
-void	warn(const char *msg)
-{
-	if (msg != NULL)
-		dprintf(STDERR_FILENO, "WARNING: %s\n", msg);
-}
-
-void	verbose(int fd, bool is_active, const char *str)
-{
-	if (is_active == true)
-		dprintf(fd, "%s%s", MSG_NAME, str);
+	(void)signum;
+	printf("\r%d/%d packets, %d%% loss, min/avg/ewma/max = %.3f/%.3f/%.3f/%.3f ms\n",
+	stats.received, stats.transmitted, stats.loss, stats.min, stats.avg, stats.ewma, stats.max);
 }
