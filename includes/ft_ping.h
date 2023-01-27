@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/26 16:09:55 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/27 16:46:09 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,15 @@
 # include <string.h>
 # include <errno.h>
 # include <ifaddrs.h>
+# include <linux/if_ether.h>
+# include <linux/filter.h>
 # include "libft.h"
 
 # define IMPLEMENT_PING
 
 # define GET_LEVEL(family) (family == PF_INET ? IPPROTO_IP : IPPROTO_IPV6)
 # define GET_ADDRLEN(family) (family == PF_INET ? INET_ADDRSTRLEN : INET6_ADDRSTRLEN)
+# define HTONS(n) (((((unsigned short)(n) & 0xFF)) << 8) | (((unsigned short)(n) & 0xFF00) >> 8))
 
 # define EXIT_ERROR 2
 # define MIN_INTERVAL 0.002

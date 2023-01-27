@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 16:39:15 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/26 17:56:24 by user42           ###   ########.fr       */
+/*   Updated: 2023/01/27 16:46:29 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int ping(t_options options, struct addrinfo *address, int socket)
 		print_ping_result(options, result, i + 1);
 		set_ping_stats(result);
 		if (result.error == ERR_UNDEFINED)
-			break;
-		if (i != options.count - 1)
+			break ;
+		if (i != options.count - 1 && result.error != INTERRUPTED)
 			usleep(options.interval);
 	}
 	print_ping_stats(options);
