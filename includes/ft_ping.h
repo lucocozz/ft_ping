@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ping.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/01/27 16:46:09 by user42           ###   ########.fr       */
+/*   Updated: 2023/03/27 19:12:42 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PING_H
 # define FT_PING_H
+
+# define _GNU_SOURCE
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -107,7 +109,7 @@
 "\nIPv6 options:\n"												\
 "  -6		Use IPv6\n"
 
-typedef struct s_options
+typedef struct s_cli
 {
 	char			*destination;
 	int				interval;
@@ -122,14 +124,14 @@ typedef struct s_options
 	int				size;
 	int				wait;
 	short			ttl;
-}	t_options;
+}	t_cli;
 
-typedef struct s_option_table
+typedef struct s_options
 {
 	char	flag;
 	bool	has_argument;
-	void	(*handler)(t_options *, char *);
-}	t_option_table;
+	void	(*handler)(t_cli *, char *);
+}	t_options;
 
 typedef struct s_icmp_datagram
 {
@@ -148,7 +150,7 @@ typedef struct s_recv_data
 	char	from_addr[48];
 	float	time;
 	short	error;
-}	t_recv_data;
+}	t_querie;
 
 typedef struct s_rtt_stats
 {
@@ -179,56 +181,56 @@ void	verbose(int fd, bool is_active, const char *str);
 void	set_signals_handlers(void);
 void	handle_signals(int signum);
 void	set_signals_handlers(void);
-void	set_alarm(t_options options);
+void	set_alarm(t_cli cli);
 void	cleanup(int socket, struct addrinfo *address);
 
 /* icmp */
-int				create_icmp_socket(t_options options, struct addrinfo *address);
+int				create_icmp_socket(t_cli cli, struct addrinfo *address);
 t_icmp_datagram	create_icmp_datagram(size_t data_size, uint8_t type, uint8_t code);
 void			delete_icmp_datagram(t_icmp_datagram *datagram);
 int				send_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address);
-t_recv_data		recv_datagram(t_options options, int socket, int family);
+t_querie		recv_datagram(t_cli cli, int socket, int family);
 
 /* ip */
 char			*get_ip_address(struct addrinfo *address);
 struct addrinfo	*resolve_service(const char *service, int family);
 uint16_t		checksum(uint16_t *addr, size_t len);
 bool			is_ip_format(int family, char *ip);
-int				is_ip_broadcast(t_options options, struct addrinfo *address);
+int				is_ip_broadcast(t_cli cli, struct addrinfo *address);
 char			*get_ip_netmask(char *ip_address);
 
 /* utils */
 float	get_elapsed_time(struct timeval start, struct timeval end);
 
 /* ping */
-int			ping(t_options options, struct addrinfo *address, int socket);
-t_recv_data	ping_datagram(t_options options, int socket, t_icmp_datagram datagram,
+int			ping(t_cli cli, struct addrinfo *address, int socket);
+t_querie	ping_queries(t_cli cli, int socket, t_icmp_datagram datagram,
 				struct addrinfo *address);
-void		set_ping_stats(t_recv_data result);
+void		set_ping_stats(t_querie result);
 
 /* display */
-void	print_ping_header(t_options options, char *ip, t_icmp_datagram datagram);
-void	print_ping_result(t_options options, t_recv_data data, int seq);
-void	print_ping_stats(t_options options);
+void	print_ping_header(t_cli cli, char *ip, t_icmp_datagram datagram);
+void	print_ping_result(t_cli cli, t_querie data, int seq);
+void	print_ping_stats(t_cli cli);
 void	print_sigquit_stats(int signum);
 
-/* options */
-t_options	get_options(int argc, char **argv);
-t_options	parse_options(int argc, char **argv);
+/* cli */
+t_cli	get_cli(int argc, char **argv);
+t_cli	parse_cli(int argc, char **argv);
 
-void	handle_flag_h(t_options *data, char *argument);
-void	handle_flag_v(t_options *data, char *argument);
-void	handle_flag_c(t_options *data, char *argument);
-void	handle_flag_i(t_options *data, char *argument);
-void	handle_flag_D(t_options *data, char *argument);
-void	handle_flag_q(t_options *data, char *argument);
-void	handle_flag_s(t_options *data, char *argument);
-void	handle_flag_t(t_options *data, char *argument);
-void	handle_flag_w(t_options *data, char *argument);
-void	handle_flag_W(t_options *data, char *argument);
-void	handle_flag_4(t_options *data, char *argument);
-void	handle_flag_6(t_options *data, char *argument);
-void	handle_flag_b(t_options *data, char *argument);
-void	handle_flag_n(t_options *data, char *argument);
+void	handle_flag_h(t_cli *data, char *argument);
+void	handle_flag_v(t_cli *data, char *argument);
+void	handle_flag_c(t_cli *data, char *argument);
+void	handle_flag_i(t_cli *data, char *argument);
+void	handle_flag_D(t_cli *data, char *argument);
+void	handle_flag_q(t_cli *data, char *argument);
+void	handle_flag_s(t_cli *data, char *argument);
+void	handle_flag_t(t_cli *data, char *argument);
+void	handle_flag_w(t_cli *data, char *argument);
+void	handle_flag_W(t_cli *data, char *argument);
+void	handle_flag_4(t_cli *data, char *argument);
+void	handle_flag_6(t_cli *data, char *argument);
+void	handle_flag_b(t_cli *data, char *argument);
+void	handle_flag_n(t_cli *data, char *argument);
 
 #endif

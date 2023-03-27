@@ -3,28 +3,28 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: user42 <user42@student.42.fr>              +#+  +:+       +#+         #
+#    By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/30 15:23:20 by lucocozz          #+#    #+#              #
-#    Updated: 2023/01/26 14:46:51 by user42           ###   ########.fr        #
+#    Updated: 2023/03/27 19:10:30 by lucocozz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ping
 
-SRCS =	main.c					\
-		$(_PING)				\
-		$(_DISPLAY)				\
-		$(_ICMP)				\
-		$(_IP)					\
-		$(_OPTIONS)				\
-		$(_SYSTEM)				\
-		$(_UTILS)				\
+SRCS =	main.c				\
+		$(_PING)			\
+		$(_DISPLAY)			\
+		$(_ICMP)			\
+		$(_IP)				\
+		$(_CLI)				\
+		$(_SYSTEM)			\
+		$(_UTILS)			\
 		$(_LIBS)
 
 _PING =						\
 	ping.c					\
-	ping_datagram.c			\
+	ping_queries.c			\
 	set_ping_stats.c
 
 _DISPLAY = 					\
@@ -47,10 +47,10 @@ _IP =						\
 	is_ip_broadcast.c		\
 	get_ip_netmask.c
 
-_OPTIONS =					\
+_CLI =						\
 	flags_handlers.c		\
-	get_options.c			\
-	parse_options.c
+	get_cli.c				\
+	parse_cli.c
 
 _SYSTEM =					\
 	alarm.c					\
@@ -85,7 +85,7 @@ ifeq ($(DEBUG), on)
 endif
 LDFLAGS = $(LIBS:%=-L lib%) $(LIBS:%=-l%)
 
-vpath %.c	$(addprefix $(SRCS_DIR), /. /libs /icmp /options /ip /system /utils /ping /display)
+vpath %.c	$(addprefix $(SRCS_DIR), /. /libs /icmp /cli /ip /system /utils /ping /display)
 
 all:
 	$(foreach LIB, ${LIBS}, ${MAKE} -C lib${LIB} ;)

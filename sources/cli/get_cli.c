@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_options.c                                      :+:      :+:    :+:   */
+/*   get_cli.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,14 +12,14 @@
 
 #include "ft_ping.h"
 
-t_options	get_options(int argc, char **argv)
+t_cli	get_cli(int argc, char **argv)
 {
-	t_options	options;
+	t_cli	cli;
 
 	if (argc == 1)
 		fatal(EXIT_ERROR, MSG_MISSING_DEST);
-	options = parse_options(argc, argv);
-	if (options.destination == NULL)
+	cli = parse_cli(argc, argv);
+	if (cli.destination == NULL)
 		fatal(EXIT_FAILURE, MSG_USAGE_ERR);
-	return (options);
+	return (cli);
 }

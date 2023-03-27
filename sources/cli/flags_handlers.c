@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   flags_handlers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 20:26:22 by user42            #+#    #+#             */
-/*   Updated: 2023/01/20 00:21:02 by user42           ###   ########.fr       */
+/*   Updated: 2023/03/27 19:07:04 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-void	handle_flag_h(t_options *data, char *argument)
+void	handle_flag_h(t_cli *cli, char *argument)
 {
-	(void)(data && argument);
+	(void)(cli && argument);
 	printf("%s", PING_HELP);
 	exit(EXIT_SUCCESS);
 }
 
-void	handle_flag_v(t_options *data, char *argument)
+void	handle_flag_v(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->verbose = true;
+	cli->verbose = true;
 }
 
-void	handle_flag_c(t_options *data, char *argument)
+void	handle_flag_c(t_cli *cli, char *argument)
 {
 	long	value;
 	char	msg[256] = {0};
@@ -39,10 +39,10 @@ void	handle_flag_c(t_options *data, char *argument)
 		sprintf(msg, "%s '%s': out of range: %d <= value <= %ld", MSG_INVALID_ARG, argument, 1, __LONG_MAX__);
 		fatal(EXIT_FAILURE, msg);
 	}
-	data->count = value;
+	cli->count = value;
 }
 
-void	handle_flag_i(t_options *data, char *argument)
+void	handle_flag_i(t_cli *cli, char *argument)
 {
 	float	value;
 	char	msg[256] = {0};
@@ -54,22 +54,22 @@ void	handle_flag_i(t_options *data, char *argument)
 	value = ft_atof(argument);
 	if (value < MIN_INTERVAL)
 		fatal(EXIT_FAILURE, MSG_FLOOD);
-	data->interval = value * 1000000;
+	cli->interval = value * 1000000;
 }
 
-void	handle_flag_D(t_options *data, char *argument)
+void	handle_flag_D(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->timestamps = true;
+	cli->timestamps = true;
 }
 
-void	handle_flag_q(t_options *data, char *argument)
+void	handle_flag_q(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->quiet = true;
+	cli->quiet = true;
 }
 
-void	handle_flag_s(t_options *data, char *argument)
+void	handle_flag_s(t_cli *cli, char *argument)
 {
 	int		value;
 	char	msg[256] = {0};
@@ -83,10 +83,10 @@ void	handle_flag_s(t_options *data, char *argument)
 		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __INT32_MAX__);
 		fatal(EXIT_FAILURE, msg);
 	}
-	data->size = value;
+	cli->size = value;
 }
 
-void	handle_flag_t(t_options *data, char *argument)
+void	handle_flag_t(t_cli *cli, char *argument)
 {
 	int		value;
 	char	msg[256] = {0};
@@ -100,10 +100,10 @@ void	handle_flag_t(t_options *data, char *argument)
 		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __UINT8_MAX__);
 		fatal(EXIT_FAILURE, msg);
 	}
-	data->ttl = value;
+	cli->ttl = value;
 }
 
-void	handle_flag_w(t_options *data, char *argument)
+void	handle_flag_w(t_cli *cli, char *argument)
 {
 	int		value;
 	char	msg[256] = {0};
@@ -117,10 +117,10 @@ void	handle_flag_w(t_options *data, char *argument)
 		sprintf(msg, "%s '%s': out of range: %d <= value <= %d", MSG_INVALID_ARG, argument, 0, __INT32_MAX__);
 		fatal(EXIT_FAILURE, msg);
 	}
-	data->wait = value;
+	cli->wait = value;
 }
 
-void	handle_flag_W(t_options *data, char *argument)
+void	handle_flag_W(t_cli *cli, char *argument)
 {
 	int		value;
 	char	msg[256] = {0};
@@ -134,29 +134,29 @@ void	handle_flag_W(t_options *data, char *argument)
 		sprintf(msg, "%s: %s", MSG_BAD_LINGER_TIME, argument);
 		fatal(EXIT_FAILURE, msg);
 	}
-	data->timeout.tv_sec = value == 0 ? 1 : value;
+	cli->timeout.tv_sec = value == 0 ? 1 : value;
 }
 
-void	handle_flag_4(t_options *data, char *argument)
+void	handle_flag_4(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->family = PF_INET;
+	cli->family = PF_INET;
 }
 
-void	handle_flag_6(t_options *data, char *argument)
+void	handle_flag_6(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->family = PF_INET6;
+	cli->family = PF_INET6;
 }
 
-void	handle_flag_b(t_options *data, char *argument)
+void	handle_flag_b(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->broadcast = true;
+	cli->broadcast = true;
 }
 
-void	handle_flag_n(t_options *data, char *argument)
+void	handle_flag_n(t_cli *cli, char *argument)
 {
 	(void)argument;
-	data->no_dns = true;
+	cli->no_dns = true;
 }

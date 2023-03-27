@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_options.c                                    :+:      :+:    :+:   */
+/*   parse_cli.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:30:35 by user42            #+#    #+#             */
-/*   Updated: 2023/01/09 15:24:14 by user42           ###   ########.fr       */
+/*   Updated: 2023/02/22 20:09:32 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
-static int	__check_flag(t_options *data, char flag, char *argument)
+static int	__check_flag(t_cli *cli, char flag, char *argument)
 {
 	uint						i = 0;
-	static const t_option_table	options[] = {
+	static const t_options	options[] = {
 		{.flag = 'h', .handler = &handle_flag_h, .has_argument = false},
 		{.flag = 'v', .handler = &handle_flag_v, .has_argument = false},
 		{.flag = 'D', .handler = &handle_flag_D, .has_argument = false},
@@ -39,7 +39,7 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 				printf("%s'%c'\n\n", MSG_REQUIRED_ARG, flag);
 				handle_flag_h(NULL, NULL);
 			}
-			options[i].handler(data, options[i].has_argument == true ? argument : NULL);
+			options[i].handler(cli, argument);
 			break ;
 		}
 	}
@@ -50,30 +50,30 @@ static int	__check_flag(t_options *data, char flag, char *argument)
 	return (options[i].has_argument);
 }
 
-static t_options	__init_options(void)
+static t_cli	__init_cli(void)
 {
-	t_options	options;
+	t_cli	cli;
 
-	options.count = DFT_COUNT;
-	options.verbose = DFT_VERBOSE;
-	options.destination = DFT_DESTINATION;
-	options.interval = DFT_INTERVAL;
-	options.timestamps = DFT_TIMESTAMPS;
-	options.timeout = (struct timeval){.tv_sec = DFT_TIMEOUT, .tv_usec = 0};
-	options.quiet = DFT_QUIET;
-	options.size = DFT_SIZE;
-	options.ttl = DFT_TTL;
-	options.wait = DFT_WAIT;
-	options.family = DFT_FAMILY;
-	options.broadcast = DFT_BROADCAST;
-	options.no_dns = DFT_NO_DNS;
-	return (options);
+	cli.count = DFT_COUNT;
+	cli.verbose = DFT_VERBOSE;
+	cli.destination = DFT_DESTINATION;
+	cli.interval = DFT_INTERVAL;
+	cli.timestamps = DFT_TIMESTAMPS;
+	cli.timeout = (struct timeval){.tv_sec = DFT_TIMEOUT, .tv_usec = 0};
+	cli.quiet = DFT_QUIET;
+	cli.size = DFT_SIZE;
+	cli.ttl = DFT_TTL;
+	cli.wait = DFT_WAIT;
+	cli.family = DFT_FAMILY;
+	cli.broadcast = DFT_BROADCAST;
+	cli.no_dns = DFT_NO_DNS;
+	return (cli);
 }
 
-t_options	parse_options(int argc, char **argv)
+t_cli	parse_cli(int argc, char **argv)
 {
 	char		*flag;
-	t_options	options = __init_options();
+	t_cli	cli = __init_cli();
 
 	for (int i = 1; i < argc; ++i)
 	{
@@ -83,18 +83,18 @@ t_options	parse_options(int argc, char **argv)
 			while (*flag != '\0')
 			{
 				if (*(flag + 1) != '\0') {
-					__check_flag(&options, *flag, (flag + 1));
+					__check_flag(&cli, *flag, (flag + 1));
 					break ;
 				}
 				else if (i < argc - 1)
-					i += __check_flag(&options, *flag, argv[i + 1]);
+					i += __check_flag(&cli, *flag, argv[i + 1]);
 				else
-					__check_flag(&options, *flag, NULL);
+					__check_flag(&cli, *flag, NULL);
 				++flag;
 			}
 		}
 		else
-			options.destination = argv[i];
+			cli.destination = argv[i];
 	}
-	return (options);
+	return (cli);
 }

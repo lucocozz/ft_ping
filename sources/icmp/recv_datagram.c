@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   recv_datagram.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/01/26 16:13:08 by user42           ###   ########.fr       */
+/*   Updated: 2023/03/27 19:14:21 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,26 @@ static short	__get_error(int bytes, void **buffer)
 	return (__get_error_type(buffer));
 }
 
-t_recv_data	recv_datagram(t_options options, int socket, int family)
+t_querie	recv_datagram(t_cli cli, int socket, int family)
 {
 	struct iovec		iov;
 	struct msghdr		msg;
 	struct sockaddr_in	from_addr;
 	char				buffer[MSG_BUFFER_SIZE];
-	t_recv_data			data;
+	t_querie			querie;
 
 	iov.iov_base = buffer;
 	iov.iov_len = MSG_BUFFER_SIZE;
 	msg = __init_msg(&from_addr, &iov);
-	data.bytes = recvmsg(socket, &msg, 0);
-	data.error = __get_error(data.bytes, &msg.msg_iov->iov_base);
-	if (data.error == NOERROR) {
-		data.ttl = __get_ttl(msg, GET_LEVEL(family));
+	querie.bytes = recvmsg(socket, &msg, 0);
+	querie.error = __get_error(querie.bytes, &msg.msg_iov->iov_base);
+	if (querie.error == NOERROR) {
+		querie.ttl = __get_ttl(msg, GET_LEVEL(family));
 	}
-	inet_ntop(family, &from_addr.sin_addr, data.from_addr, GET_ADDRLEN(family));
-	if (options.no_dns == false)
-		getnameinfo((struct sockaddr*)&from_addr, sizeof(from_addr), data.ptr_record, PTR_RECORD_SIZE, NULL, 0, 0);
+	inet_ntop(family, &from_addr.sin_addr, querie.from_addr, GET_ADDRLEN(family));
+	if (cli.no_dns == false)
+		getnameinfo((struct sockaddr*)&from_addr, sizeof(from_addr), querie.ptr_record, PTR_RECORD_SIZE, NULL, 0, 0);
 	else
-		ft_strcpy(data.ptr_record, data.from_addr);
-	return (data);
+		ft_strcpy(querie.ptr_record, querie.from_addr);
+	return (querie);
 }
