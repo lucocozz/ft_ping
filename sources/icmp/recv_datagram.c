@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/27 19:14:21 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:09:04 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,18 @@
 struct msghdr	__init_msg(struct sockaddr_in *src_addr, struct iovec *iov)
 {
 	struct msghdr	msg = {0};
-	int				ctrl_buffer[CMSG_SPACE(sizeof(int))];
 	
 	msg.msg_name = src_addr;
 	msg.msg_namelen = sizeof(*src_addr);
 	msg.msg_iov = iov;
 	msg.msg_iovlen = 1;
-	msg.msg_control = ctrl_buffer;
-	msg.msg_controllen = CMSG_SPACE(sizeof(ctrl_buffer));
 	return (msg);
 }
 
 static int	__get_ttl(struct msghdr header, int level)
 {
 	int					ttl = -1;
-	struct cmsghdr		*ctrl_msg;
+	struct cmsghdr		*ctrl_msg = NULL;
 
 	ctrl_msg = CMSG_FIRSTHDR(&header);
 	while (ctrl_msg != NULL)
@@ -75,12 +72,15 @@ t_querie	recv_datagram(t_cli cli, int socket, int family)
 	struct iovec		iov;
 	struct msghdr		msg;
 	struct sockaddr_in	from_addr;
-	char				buffer[MSG_BUFFER_SIZE];
-	t_querie			querie;
+	char				buffer[MSG_BUFFER_SIZE] = {0};
+	int					ctrl_buffer[CMSG_SPACE(sizeof(int))];
+	t_querie			querie = {0};
 
 	iov.iov_base = buffer;
 	iov.iov_len = MSG_BUFFER_SIZE;
 	msg = __init_msg(&from_addr, &iov);
+	msg.msg_control = ctrl_buffer;
+	msg.msg_controllen = CMSG_SPACE(sizeof(ctrl_buffer));
 	querie.bytes = recvmsg(socket, &msg, 0);
 	querie.error = __get_error(querie.bytes, &msg.msg_iov->iov_base);
 	if (querie.error == NOERROR) {

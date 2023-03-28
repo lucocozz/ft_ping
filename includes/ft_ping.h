@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/03/27 19:12:42 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/27 20:32:15 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ typedef struct s_icmp_datagram
 	size_t			total;
 } t_icmp_datagram;
 
-typedef struct s_recv_data
+typedef struct s_querie
 {
 	int		ttl;
 	int		bytes;

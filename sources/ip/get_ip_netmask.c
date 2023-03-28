@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_ip_netmask.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 19:23:06 by user42            #+#    #+#             */
-/*   Updated: 2023/01/13 20:37:36 by user42           ###   ########.fr       */
+/*   Updated: 2023/03/27 20:25:48 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_ip_netmask(char *ip_address)
 		return (NETMASK_B);
 	else if (first_octet >= 224 && first_octet <= 239)
 		return (NETMASK_C);
-	else if (first_octet >= 240 && first_octet <= 255)
+	else if (first_octet >= 240)
 		return (NETMASK_D);
 	else
 		return (NULL);
