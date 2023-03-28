@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 00:09:19 by lucocozz          #+#    #+#             */
-/*   Updated: 2022/12/29 14:54:06 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:13:16 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	send_datagram(int socket, t_icmp_datagram datagram, struct addrinfo *address)
 {
-	struct sockaddr_in	dest;
+	struct sockaddr_in	dest = {0};
 	struct sockaddr_in	*sockaddr = (struct sockaddr_in *)address->ai_addr;
 	int					bytes_sent;
 
