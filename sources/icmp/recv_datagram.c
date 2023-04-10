@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 11:07:12 by lucocozz          #+#    #+#             */
-/*   Updated: 2023/03/28 19:09:04 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:13:20 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ t_querie	recv_datagram(t_cli cli, int socket, int family)
 {
 	struct iovec		iov;
 	struct msghdr		msg;
-	struct sockaddr_in	from_addr;
+	struct sockaddr_in	from_addr = {0};
 	char				buffer[MSG_BUFFER_SIZE] = {0};
-	int					ctrl_buffer[CMSG_SPACE(sizeof(int))];
+	int					ctrl_buffer[CMSG_SPACE(sizeof(int))] = {0};
 	t_querie			querie = {0};
 
 	iov.iov_base = buffer;

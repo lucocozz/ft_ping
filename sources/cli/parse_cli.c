@@ -21,7 +21,7 @@ static int	__check_flag(t_cli *cli, char flag, char *argument)
 		{.flag = 'D', .handler = &handle_flag_D, .has_argument = false},
 		{.flag = 'q', .handler = &handle_flag_q, .has_argument = false},
 		{.flag = '4', .handler = &handle_flag_4, .has_argument = false},
-		{.flag = '6', .handler = &handle_flag_6, .has_argument = false},
+		// {.flag = '6', .handler = &handle_flag_6, .has_argument = false},
 		{.flag = 'b', .handler = &handle_flag_b, .has_argument = false},
 		{.flag = 'n', .handler = &handle_flag_n, .has_argument = false},
 		{.flag = 'c', .handler = &handle_flag_c, .has_argument = true},

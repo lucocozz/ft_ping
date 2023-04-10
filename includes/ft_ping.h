@@ -6,7 +6,7 @@
 /*   By: lucocozz <lucocozz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:01:43 by user42            #+#    #+#             */
-/*   Updated: 2023/03/27 20:32:15 by lucocozz         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:04:47 by lucocozz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@
 "-w <deadline>	reply wait <deadline> in seconds\n"				\
 "-W <timeout>	Time to wait for response\n"					\
 "\nIPv4 options:\n"												\
-"  -4		Use IPv4\n"											\
-"\nIPv6 options:\n"												\
-"  -6		Use IPv6\n"
+"  -4		Use IPv4\n"											
+// "\nIPv6 options:\n"												\
+// "  -6		Use IPv6\n"
 
 typedef struct s_cli
 {
